@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TicketService</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body ng-app="AppEvents">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        <li class="nav-item"><a class="nav-link" href="/#!/Events">@Localizer["Events"]</a></li>
+                        <partial name="_LoginPartial" />
+                        <li class="nav-item d-inline-block dropdown" style=" float: right" ng-controller="LanguageController as vm">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{vm.locale}}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/Language/SetLanguage/?locale=ru">Русский</a>
+                                <a class="dropdown-item" href="/Language/SetLanguage/?locale=en-US">English</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div ui-view></div>
+            <div>@RenderBody()</div>
+        </main>
+
+    </div>
+
+    <footer class="border-top footer text-muted">
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/angular/angular.min.js"></script>
+    <script src="~/lib/angular/angular-ui-router.js"></script>
+    <script src="~/lib/angular/angular-resource.js"></script>
+    <script src="~/lib/angular/angular-cookies.js"></script>
+    <script src="~/lib/angular/angular-sanitize.js"></script>
+    <script src="~/js/AppEvents.js"></script>
+    <script src="~/js/LanguageService.js"></script>
+    <script src="~/js/EventsController.js"></script>
+    <script src="~/js/TicketsController.js"></script>
+    <script src="~/js/EventSelectController.js"></script>
+    <script src="~/js/MyTicketsController.js"></script>
+    <script src="~/js/MyOrdersController.js"></script>
+    <script src="~/js/LanguageController.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

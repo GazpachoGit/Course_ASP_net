@@ -1,0 +1,26 @@
+{
+  "Hello": "rurururur",
+  "EventsView.Table.Columns.Name": "Название",
+  "EventsView.Table.Columns.Date": "Дата",
+  "EventsView.Table.Columns.City": "Город",
+  "EventsView.h1": "Культурные события",
+  "EventsView.Table.Buttons.Details": "Детали",
+  "EventsView.Table.Buttons.Tickets": "Билеты",
+
+  "EventsDetails.Description": "Описание",
+  "EventsDetails.cancel": "назад",
+
+  "MyTicketsView.h1": "Мои билеты",
+  "MyTicketsView.Tabs.Selling": "В продаже",
+  "MyTicketsView.Tabs.WaitingConfirmation": "Ждут подтверждения",
+  "MyTicketsView.Tabs.Sold": "Проданные",
+
+  "MyOrdersView.h1": "Мои заказы",
+  "MyOrdersView.Tabs.Confirmed": "Подтвержденные",
+  "MyOrdersView.Tabs.WaitingConfirmation": "Ждут подтвержения",
+  "MyOrdersView.Tabs.Rejected": "Откланенные",
+
+  "TicketsView.h1": "Доступные билеты на",
+  "TicketsView.Table.Columns.SellerName": "Продавец",
+  "TicketsView.Table.Columns.Price": "Цена"
+}

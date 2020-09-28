@@ -1,0 +1,26 @@
+{
+  "Hello": "enenenenne",
+  "EventsView.Table.Columns.Name": "Name",
+  "EventsView.Table.Columns.Date": "Date",
+  "EventsView.Table.Columns.City": "City",
+  "EventsView.h1": "Cultural events",
+  "EventsView.Table.Buttons.Details": "Details",
+  "EventsView.Table.Buttons.Tickets": "Tickets",
+
+  "EventsDetails.Description": "Description",
+  "EventsDetails.cancel": "cancel",
+
+  "MyTicketsView.h1": "My Tickets",
+  "MyTicketsView.Tabs.Selling": "Selling",
+  "MyTicketsView.Tabs.WaitingConfirmation": "Waiting Confirmation",
+  "MyTicketsView.Tabs.Sold": "Sold",
+
+  "MyOrdersView.h1": "My orders",
+  "MyOrdersView.Tabs.Confirmed": "Confirmed",
+  "MyOrdersView.Tabs.WaitingConfirmation": "Waiting Confirmation",
+  "MyOrdersView.Tabs.Rejected": "Rejected",
+
+  "TicketsView.h1": "Avaliable tickets on",
+  "TicketsView.Table.Columns.SellerName": "Seller Name",
+  "TicketsView.Table.Columns.Price" : "Price"
+}

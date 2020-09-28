@@ -1,0 +1,20 @@
+﻿<div style="
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    background-color: white;
+    width: 600px;
+    height: 600px;
+    border-style: solid;
+    border-width: medium;
+    border-color: cornflowerblue"
+    class="container">
+    <a class="btn btn-light btn-lg m-2" ui-sref="Events"><i class="arrow fa-arrow-right"></i> {{'EventsDetails.cancel' | translate}}</a>
+    <h1>{{vm.event.name}}</h1>
+    <h2>{{'EventsDetails.Description' | translate}}:</h2>
+    <div ng-bind-html="vm.event.description"></div>
+    <a href="/#!/Events/{{vm.event.id}}/Tickets" class="btn btn-sm btn-primary" ng-click="vm.selectEvent(vm.event.name)">
+        {{'EventsView.Table.Buttons.Tickets' | translate}}
+    </a>
+</div>
+

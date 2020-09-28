@@ -1,0 +1,28 @@
+﻿<h1>{{'TicketsView.h1' | translate}} "{{vm.SelectedEvent}}"</h1>
+<a ui-sref="Events" class="btn btn-light btn-lg m-2"><i class="fa-arrow-left"></i> {{'EventsDetails.cancel' | translate}}</a>
+<table class=" table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>eventid</th>
+            <th scope="col" ng-click="vm.DoSort('sallerName')">
+                {{'TicketsView.Table.Columns.SellerName' | translate}}
+                <a href="" class="fa fa-arrow-{{vm.ArrowDirection}}"
+                   style="font-size : 10px; color: black;"
+                   ng-show="(vm.ShowArrow('sallerName'))"></a>
+            </th>
+            <th scope="col" ng-click="vm.DoSort('price')">
+                {{'TicketsView.Table.Columns.Price' | translate}}
+                <a href="" class="fa fa-arrow-{{vm.ArrowDirection}}"
+                   style="font-size : 10px; color: black;"
+                   ng-show="(vm.ShowArrow('price'))"></a>
+            </th>
+            
+        </tr>
+    </thead>
+    <tr ng-repeat="ticket in vm.Tickets | orderBy: vm.SortParameter:vm.reversed">
+        <td>{{ticket.event.id}}</td>
+        <td>{{ticket.seller.firstName + ' ' + ticket.seller.lastName}}</td>
+        <td>{{ticket.price}}</td>
+    </tr>
+</table>
+<p>debug Event Id: {{vm.eventId}}</p>

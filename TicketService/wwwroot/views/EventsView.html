@@ -1,0 +1,35 @@
+﻿<h1>{{'EventsView.h1' | translate}}</h1>
+<p class="text-danger" ng-show="vm.ErrorMessage">{{vm.ErrorMessage}}</p>
+<table class=" table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col" ng-click="vm.DoSort('Name')">{{'EventsView.Table.Columns.Name' | translate}}</th>
+            <th scope="col" ng-click="vm.DoSort('Date')">{{'EventsView.Table.Columns.Date' | translate}}</th>
+            <th scope="col" ng-click="vm.DoSort('City')">{{'EventsView.Table.Columns.City' | translate}}</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr ng-repeat="event in vm.Events | orderBy: vm.SortParameter:vm.reversed">
+        <td>{{event.id}}</td>
+        <td>{{event.name}}</td>
+        <td>{{event.date | date : 'short'}}</td>
+        <td>{{event.venue.city.name}}</td>
+        <td>
+            <a href=" #!/Events/{{event.id}}/Tickets" class="btn btn-sm btn-primary" ng-click="vm.selectEvent(event.name)">
+                {{'EventsView.Table.Buttons.Tickets' | translate}}
+            </a>
+        </td>
+        <td>
+            <a ui-sref="Events.Select({event: {{event}}})" class="btn btn-sm btn-primary">
+                {{'EventsView.Table.Buttons.Details' | translate}}
+            </a>
+        </td>
+    </tr>
+</table>
+<div>debug: was selected: {{vm.Selected}}</div>
+
+
+<div ui-view></div>
+
