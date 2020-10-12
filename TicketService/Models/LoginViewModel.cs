@@ -8,8 +8,7 @@ namespace TicketService.Models
 {
     public class LoginViewModel
     {
-        [Required]
-        [DataType(DataType.Password)]
+        [Required]       
         public string UserName { get; set; }
 
         [Required]

@@ -1,7 +1,6 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-}
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{ ViewData["Title"] = "Index"; }
 
-<h1>Admin page</h1>
+<h1>@Localizer["Title"]</h1>
 

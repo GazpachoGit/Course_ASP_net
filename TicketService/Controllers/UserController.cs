@@ -44,7 +44,7 @@ namespace TicketService.Controllers
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(identity));
                 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Events");
 
             } catch(ArgumentException ex)
             {
@@ -56,7 +56,7 @@ namespace TicketService.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Events");
         }
     }
 }

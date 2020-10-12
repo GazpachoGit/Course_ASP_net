@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model IEnumerable<TicketService.Models.Ticket>
+@inject IViewLocalizer Localizer
+
+<div class="row">
+    <div class="col-1">
+        <a class="btn btn-outline-secondary" href="/">< cancel</a>
+    </div>
+    <div class="col-11 container-fluid">
+        <h1>@Localizer["Title"]</h1>
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Localizer["EventId"]
+                        </th>
+                        <th>
+                            @Localizer["SellerName"]
+                        </th>
+                        <th>
+                            @Localizer["Price"]
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Event.Id
+                        </td>
+                        <td>
+                            @item.Seller.LastName  @item.Seller.FirstName
+                        </td>
+                        <td>
+                            @item.Price
+                        </td>
+                    </tr>
+                }
+            </table>
+    </div>
+</div>

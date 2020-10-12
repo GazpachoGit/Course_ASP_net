@@ -2,8 +2,12 @@
 @inject IViewLocalizer Localizer
 @if (User.Identity.IsAuthenticated)
 {
-    <li class="nav-item"><a class="nav-link" href="/#!/MyTickets/Selling">@Localizer["MyTickets"]</a></li>
-    <li class="nav-item"><a class="nav-link" href="/#!/MyOrders/Confirmed">@Localizer["MyOrders"]</a></li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="MyTickets" asp-action="Index">@Localizer["MyTickets"]</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="MyOrders" asp-action="Index">@Localizer["MyOrders"]</a>
+    </li>
    @* <li class="nav-item"><span class=" navbar-text">Hello,  @User.Identity.Name</span></li>*@
 
 
@@ -13,9 +17,10 @@
 
     @if (User.IsInRole(Roles.Administrator))
     {
-        <li class="nav-item">
+        <li class="float-right nav-item">
             <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">@Localizer["Admin"]</a>
         </li>
+        
     }
     else
     {

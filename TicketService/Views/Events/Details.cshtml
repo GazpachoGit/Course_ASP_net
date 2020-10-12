@@ -1,0 +1,8 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model TicketService.Models.Event
+@inject IViewLocalizer Localizer
+@{ ViewData["Title"] = "Event Details"; }
+
+<h1>@Model.Name</h1>
+<h2>@Localizer["Description"]:</h2>
+<div> @Html.Raw(@Model.Description)</div>

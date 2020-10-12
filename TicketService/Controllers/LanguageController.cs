@@ -14,7 +14,8 @@ namespace TicketService.Controllers
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(locale)));
-            return RedirectToAction("Index", "Home");
+            
+            return RedirectToAction("Index", "Events");
         }
     }
 }

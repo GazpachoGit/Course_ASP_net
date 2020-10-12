@@ -7,41 +7,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TicketService.Models;
+using TicketService.Models.TestData;
 
 namespace TicketService.Controllers
 {
-    public class HomeController : Controller
+    public class EventsController : Controller
     {
-        
+        private TestData testData;
 
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public EventsController(TestData testData)
         {
-            
-            _logger = logger;
+            this.testData = testData;
         }
 
+
+        [HttpGet()]
         public IActionResult Index()
         {
-            
-
-            return View();
+            var Events = testData.Events;
+            return View(Events);
+        }
+       [Route("Events/{id}")]
+        public IActionResult Details(int id)
+        {
+            var Event = testData.Events.FirstOrDefault(e => e.Id.Equals(id));
+            return View(Event);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-        public IActionResult Events()
-        {
-            return View();
-        }
-        /*[Route("Events/{eventId}/Tickets")]
-        public IActionResult Tikets()
-        {
-            return View("Tickets");
-        }*/
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

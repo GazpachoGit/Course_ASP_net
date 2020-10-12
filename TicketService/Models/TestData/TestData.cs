@@ -11,11 +11,11 @@ namespace TicketService.Models.TestData
     {
 
         public TestData() {
-            GetUsers();
-            GetCities();
-            GetVenues();           
-            GetEvents();
-            GetTickets();
+            InitUsers();
+            InitCities();
+            InitVenues();
+            InitEvents();
+            InitTickets();
            
 
 
@@ -26,7 +26,7 @@ namespace TicketService.Models.TestData
         public List<City> Cities { get; set; }
         public List<User> Users { get; set; }
 
-        public void GetEvents() {
+        public void InitEvents() {
             var EventFacer = new Faker<Event>()
             .RuleFor(x => x.Id, f => f.IndexGlobal)
             .RuleFor(x => x.Name, f => f.Commerce.Product())
@@ -43,7 +43,7 @@ namespace TicketService.Models.TestData
             
             Events = events;
         }        
-        public void GetTickets()  {
+        public void InitTickets()  {
 
             var TicketFaker = new Faker<Ticket>()
                         .RuleFor(x => x.Id, f => f.IndexGlobal)
@@ -58,7 +58,7 @@ namespace TicketService.Models.TestData
             }
             Tickets = tickets;
         }
-        public void GetVenues() 
+        public void InitVenues() 
         {
             var VenuesFaker = new Faker<Venue>()
                 .RuleFor(x => x.Id, f => f.IndexGlobal)
@@ -73,7 +73,7 @@ namespace TicketService.Models.TestData
 
         }
 
-        public void GetCities() 
+        public void InitCities() 
         {
             var CityFaker = new Faker<City>()
                 .RuleFor(x => x.Id, f => f.IndexGlobal)
@@ -81,7 +81,7 @@ namespace TicketService.Models.TestData
             var cities = CityFaker.Generate(5);
             Cities = cities;
         }
-        public void GetUsers() 
+        public void InitUsers() 
         {
             Users = new List<User>()
             {

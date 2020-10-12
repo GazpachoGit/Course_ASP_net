@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model List<TicketService.Models.Event>
+@{ ViewData["Title"] = "Events Page"; }
+
+
+<h1>@Localizer["Title"]</h1>
+<table class=" table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">@Localizer["Event.Id"]</th>
+                        <th scope="col">@Localizer["Event.Name"]</th>
+                        <th scope="col">@Localizer["Event.Date"]</th>
+                        <th scope="col">@Localizer["Event.City"]</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                @{ foreach (var item in Model)
+                    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.Date.ToString("dd.MM.yyyy")</td>
+            <td>@item.Venue.City.Name</td>
+            <td>
+                @Html.ActionLink(Localizer["Details"].Value, "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
+            </td>
+            <td>
+                @Html.ActionLink(Localizer["Tickets"].Value, "Tickets", "Tickets", new { id = item.Id }, new { @class = "btn btn-primary" })
+            </td>
+        </tr>
+ } }
+
+</table>
+
+
+
