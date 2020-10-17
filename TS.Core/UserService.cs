@@ -10,16 +10,26 @@ namespace TicketService.Core
 {
     public class UserService : IUserService
     {
-        private readonly TicketServiceContext context;
+        private readonly DbSet<User> Users;
         public UserService(TicketServiceContext context)
         {
-            this.context = context;
+            this.Users = context.Users;
         }
+
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return await context.Users.ToListAsync();
+            return await Users.ToListAsync();
         }
-        
-    
+
+        public async Task<User> GetUser(string userName)
+        {
+            return await Users.SingleOrDefaultAsync(u => u.UserName.ToLower() == userName.ToLower());
+        }
+
+        public async Task<string> GetUserRole(string userName)
+        {
+            var user = await Users.SingleOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
+            return user.Role;
+        }
     }
 }

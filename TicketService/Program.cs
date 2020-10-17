@@ -7,8 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using TicketService.Database;
-using TicketService.Models.TestData;
+using TicketService.DAL.Database;
+using TicketService.DAL.Models.TestData;
 
 namespace TicketService
 {

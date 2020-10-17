@@ -9,5 +9,8 @@ namespace TicketService.Core
     public interface IUserService
     {
         Task<IEnumerable<User>> GetAllUsers();
+        Task<User> GetUser(string userName);
+        Task<string> GetUserRole(string userName);
     }
+    
 }

@@ -4,26 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TicketService.Database;
-using TicketService.Models.TestData;
+using TicketService.Core;
+using TicketService.Models;
 
 namespace TicketService.Controllers
 {
     public class TicketsController : Controller
     {
         
-        private readonly TicketServiceContext context;
+        private readonly ITicketsService ticketsService;
 
-        public TicketsController( TicketServiceContext context)
+        public TicketsController(ITicketsService ticketsService)
         {
            
-            this.context = context;
+            this.ticketsService = ticketsService;
         }
 
         [Route("Event/{id}/Tickets")]
         public async Task<IActionResult> Tickets(int id)
         {
-            var Tickets = await context.Tickets.Where(t => t.Event.EventId == id).Include(t => t.Event).Include(t => t.Seller).ToListAsync();            
+            var Tickets = await ticketsService.GetTicketsByEventId(id);            
             return View(Tickets);
         }
     }

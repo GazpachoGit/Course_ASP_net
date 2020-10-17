@@ -13,9 +13,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TicketService.Database;
+using TicketService.Core;
+using TicketService.DAL.Database;
 using TicketService.Models;
-using TicketService.Models.TestData;
 
 namespace TicketService
 {
@@ -39,6 +39,9 @@ namespace TicketService
                     options.AccessDeniedPath = "/User/Login";
                     options.Cookie.Name = "AuthTicketService";
                 });
+            services.AddScoped<IEventService, EventService>();
+            services.AddScoped<ITicketsService, TicketsService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<UserManager>();
             //services.AddSingleton<TestData>();
             services.AddLocalization(options => {

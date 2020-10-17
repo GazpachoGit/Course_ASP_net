@@ -16,7 +16,7 @@ namespace TicketService.Core
         {
             this.context = context;
         }
-        public async Task<IEnumerable<Ticket>> GetTicketsByEvent(int eventId)
+        public async Task<IEnumerable<Ticket>> GetTicketsByEventId(int eventId)
         {
             return await context.Tickets.Where(t => t.Event.EventId == eventId).Include(t => t.Event).Include(t => t.Seller).ToListAsync();
         }

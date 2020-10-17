@@ -36,12 +36,12 @@ namespace TicketService.Core
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Event>> GetAll()
+        public async Task<IEnumerable<Event>> GetAllEvents()
         {
             return await context.Events.Include(e => e.Venue).ThenInclude(v => v.City).ToListAsync();
         }
 
-        public async Task<Event> GetEvent(int Id)
+        public async Task<Event> GetEventById(int Id)
         {
             return await context.Events.Include(e => e.Venue).ThenInclude(v => v.City).SingleOrDefaultAsync(e => e.EventId == Id);
         }

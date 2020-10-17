@@ -2,32 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TicketService.Database;
+using TicketService.Core;
 
 namespace TicketService.Models
 {
     public class UserManager
     {
         //private TestData.TestData testdata;
-        private readonly TicketServiceContext context;
-        public UserManager(TicketServiceContext context)
+        private readonly IUserService userService;
+        public UserManager(IUserService userService)
         {
-            this.context = context;
-            this.userStore = context.Users.ToList();
+            
+            this.userService = userService;
             
         }
-        private List<User> userStore;
+        //private List<User> userStore;
 
-        public bool ValidatePassword(string userName, string password) 
+        public async Task<bool> ValidatePassword(string userName, string password) 
         {
-            var user = userStore.SingleOrDefault(u => u.UserName.ToLower() == userName.ToLower());
+            //var user = userStore.SingleOrDefault(u => u.UserName.ToLower() == userName.ToLower());
+            var user = await userService.GetUser(userName);
             if (user != null) 
             {
                 return user.Password.Equals(password);
             }
             throw new ArgumentException("User not found");
         }
-        public string GetRole(string userName) => userStore
-            .SingleOrDefault(u => u.UserName.ToLower().Equals(userName.ToLower())).Role;
+        public async Task<string> GetRole(string userName) => await userService.GetUserRole(userName);
+            //userStore
+            //.SingleOrDefault(u => u.UserName.ToLower().Equals(userName.ToLower())).Role;
     }
 }

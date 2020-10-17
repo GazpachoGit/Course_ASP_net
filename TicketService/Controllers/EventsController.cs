@@ -7,36 +7,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using TicketService.Database;
+using TicketService.Core;
 using TicketService.Models;
-using TicketService.Models.TestData;
 
 namespace TicketService.Controllers
 {
     public class EventsController : Controller
     {
         
-        private readonly TicketServiceContext context;
+        private readonly IEventService eventService;
 
-        public EventsController( TicketServiceContext context)
+        public EventsController(IEventService eventService)
         {
             
-            this.context = context;
+            this.eventService = eventService;
         }
 
 
         [HttpGet()]
         public async Task<IActionResult> Index()
         {
-            var Events = await context.Events.Include(e => e.Venue).ThenInclude(v => v.City).ToListAsync();
+            var Events = await eventService.GetAllEvents();
             return View(Events);
         }
 
        [Route("Events/{id}")]
         public async Task<IActionResult> Details(int id)
         {
-            
-            var Event = await context.Events.Include(e => e.Venue).ThenInclude(v => v.City).SingleOrDefaultAsync(e => e.EventId == id);
+
+            var Event = await eventService.GetEventById(id);
             return View(Event);
         }
 

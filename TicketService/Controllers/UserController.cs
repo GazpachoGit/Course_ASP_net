@@ -28,7 +28,7 @@ namespace TicketService.Controllers
         {
             try
             {
-                if (!usermanager.ValidatePassword(model.UserName, model.Password))
+                if (! await usermanager.ValidatePassword(model.UserName, model.Password))
                 {
                     ModelState.AddModelError(nameof(model.Password), "wrong password");
                     return View();
@@ -37,7 +37,7 @@ namespace TicketService.Controllers
                 var claims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.Name, model.UserName),
-                    new Claim(ClaimTypes.Role, usermanager.GetRole(model.UserName))
+                    new Claim(ClaimTypes.Role, await usermanager.GetRole(model.UserName))
                     
                 };
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

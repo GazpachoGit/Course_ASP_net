@@ -8,6 +8,6 @@ namespace TicketService.Core
 {
     public interface ITicketsService
     {
-        Task<IEnumerable<Ticket>> GetTicketsByEvent(int eventId);
+        Task<IEnumerable<Ticket>> GetTicketsByEventId(int eventId);
     }
 }
