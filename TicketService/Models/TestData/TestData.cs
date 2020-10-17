@@ -1,21 +1,25 @@
 ﻿
 using Bogus;
+using Microsoft.AspNetCore.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TicketService.Database;
 
 namespace TicketService.Models.TestData
 {
     public class TestData
     {
 
-        public TestData() {
+        public TestData(TicketServiceContext contex) {
             InitUsers();
             InitCities();
             InitVenues();
             InitEvents();
             InitTickets();
+            this.contex = contex;
+            
            
 
 
@@ -26,9 +30,11 @@ namespace TicketService.Models.TestData
         public List<City> Cities { get; set; }
         public List<User> Users { get; set; }
 
+        private readonly TicketServiceContext contex;
+
         public void InitEvents() {
             var EventFacer = new Faker<Event>()
-            .RuleFor(x => x.Id, f => f.IndexGlobal)
+            //.RuleFor(x => x.EventId, f => f.IndexGlobal)
             .RuleFor(x => x.Name, f => f.Commerce.Product())
             .RuleFor(x => x.Date, f => f.Date.Past());
             
@@ -46,7 +52,7 @@ namespace TicketService.Models.TestData
         public void InitTickets()  {
 
             var TicketFaker = new Faker<Ticket>()
-                        .RuleFor(x => x.Id, f => f.IndexGlobal)
+                        //.RuleFor(x => x.TicketId, f => f.IndexGlobal)
                         .RuleFor(x => x.Price, f => f.Random.Int(500, 10000));
                         
 
@@ -61,7 +67,7 @@ namespace TicketService.Models.TestData
         public void InitVenues() 
         {
             var VenuesFaker = new Faker<Venue>()
-                .RuleFor(x => x.Id, f => f.IndexGlobal)
+                //.RuleFor(x => x.Id, f => f.IndexGlobal)
                 .RuleFor(x => x.Name, f => f.Company.CompanyName())                
                 .RuleFor(x => x.Address, f => f.Address.StreetAddress());
             var venues = VenuesFaker.Generate(5);
@@ -76,7 +82,7 @@ namespace TicketService.Models.TestData
         public void InitCities() 
         {
             var CityFaker = new Faker<City>()
-                .RuleFor(x => x.Id, f => f.IndexGlobal)
+                //.RuleFor(x => x.CityId, f => f.IndexGlobal)
                 .RuleFor(x => x.Name, f => f.Address.City());
             var cities = CityFaker.Generate(5);
             Cities = cities;
@@ -85,11 +91,43 @@ namespace TicketService.Models.TestData
         {
             Users = new List<User>()
             {
-                new User() { FirstName ="Jonh", LastName = "Doe", Address = "Пушкина дом Колотушкина", Localization = "Moscow", Id= 2,
+                new User() { FirstName ="Jonh", LastName = "Doe", Address = "Пушкина 3 дом Колотушкина 4", Localization = "Moscow", 
                 UserName = "user", Password = "user", Role = Roles.User},
-                new User() { FirstName ="Egor", LastName = "Tornikov", Address = "Пушкина дом Колотушкина", Localization = "Vladivostok", Id= 1,
+                new User() { FirstName ="Egor", LastName = "Tornikov", Address = "Пушкина 1 дом Колотушкина 2", Localization = "Vladivostok", 
                 UserName = "Admin", Password = "admin", Role = Roles.Administrator}
             };
+        }
+
+        public async Task SeedDataAsync()
+        {
+            await contex.Database.EnsureCreatedAsync();
+            if(!contex.Events.Any())
+            {
+                await contex.Events.AddRangeAsync(Events);
+
+            }
+            if (!contex.Tickets.Any())
+            {
+                await contex.Tickets.AddRangeAsync(Tickets);
+
+            }
+            /*if (!contex.Cities.Any())
+            {
+                await contex.Cities.AddRangeAsync(Cities);
+
+            }*/
+            if (!contex.Users.Any())
+            {
+                await contex.Users.AddRangeAsync(Users);
+
+            }
+            if (!contex.Venues.Any())
+            {
+                await contex.Venues.AddRangeAsync(Venues);
+
+            }
+
+            await contex.SaveChangesAsync();
         }
 
     }

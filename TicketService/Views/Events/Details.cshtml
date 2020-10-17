@@ -2,7 +2,13 @@
 @model TicketService.Models.Event
 @inject IViewLocalizer Localizer
 @{ ViewData["Title"] = "Event Details"; }
-
-<h1>@Model.Name</h1>
-<h2>@Localizer["Description"]:</h2>
-<div> @Html.Raw(@Model.Description)</div>
+<div class="d-flex">
+    <div class="m-2">
+        <a class="btn btn-outline-secondary" href="/">< cancel</a>
+    </div>
+    <div class="m-2">
+        <h1>@Model.Name</h1>
+        <h2>@Localizer["Description"]:</h2>
+        <div> @Html.Raw(@Model.Description)</div>
+    </div>
+</div>

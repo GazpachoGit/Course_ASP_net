@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using TicketService.Database;
 
 namespace TicketService.Models
 {
     public class UserManager
     {
-        private TestData.TestData testdata;
-        public UserManager(TestData.TestData testdata)
+        //private TestData.TestData testdata;
+        private readonly TicketServiceContext context;
+        public UserManager(TicketServiceContext context)
         {
-            this.testdata = testdata;
-            this.userStore = testdata.Users;
+            this.context = context;
+            this.userStore = context.Users.ToList();
             
         }
         private List<User> userStore;

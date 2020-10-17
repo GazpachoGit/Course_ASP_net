@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using TicketService.Database;
 using TicketService.Models;
 using TicketService.Models.TestData;
 
@@ -13,24 +15,28 @@ namespace TicketService.Controllers
 {
     public class EventsController : Controller
     {
-        private TestData testData;
+        private readonly TicketsService ticketsService;
+        private readonly TicketServiceContext context;
 
-        public EventsController(TestData testData)
+        public EventsController( TicketServiceContext context)
         {
-            this.testData = testData;
+            
+            this.context = context;
         }
 
 
         [HttpGet()]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var Events = testData.Events;
+            var Events = await context.Events.Include(e => e.Venue).ThenInclude(v => v.City).ToListAsync();
             return View(Events);
         }
+
        [Route("Events/{id}")]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var Event = testData.Events.FirstOrDefault(e => e.Id.Equals(id));
+            
+            var Event = await context.Events.Include(e => e.Venue).ThenInclude(v => v.City).SingleOrDefaultAsync(e => e.EventId == id);
             return View(Event);
         }
 

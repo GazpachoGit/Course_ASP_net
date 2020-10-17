@@ -7,10 +7,11 @@ namespace TicketService.Models
 {
     public class Order
     {
-        public int Id { get; set; }
-        public Ticket Ticket { get; set; }
+        public int OrderId { get; set; }
+        public int TicketId { get; set; }
         public string Status { get; set; }
-        public User Buyer { get; set; }
         public string TrackNO { get; set; }
+        public Ticket Ticket { get; set; }
+        public User Buyer { get; set; }
     }
 }
