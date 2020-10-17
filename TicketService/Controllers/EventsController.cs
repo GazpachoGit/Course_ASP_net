@@ -15,7 +15,7 @@ namespace TicketService.Controllers
 {
     public class EventsController : Controller
     {
-        private readonly TicketsService ticketsService;
+        
         private readonly TicketServiceContext context;
 
         public EventsController( TicketServiceContext context)

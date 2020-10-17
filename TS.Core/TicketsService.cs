@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TicketService.Database;
-using TicketService.Models;
+using TicketService.DAL.Database;
+using TicketService.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace TicketService.Core

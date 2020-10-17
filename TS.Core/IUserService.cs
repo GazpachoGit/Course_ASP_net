@@ -6,8 +6,8 @@ using TicketService.DAL.Models;
 
 namespace TicketService.Core
 {
-    public interface ITicketsService
+    public interface IUserService
     {
-        Task<IEnumerable<Ticket>> GetTicketsByEvent(int eventId);
+        Task<IEnumerable<User>> GetAllUsers();
     }
 }

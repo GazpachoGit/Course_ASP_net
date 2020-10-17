@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TicketService\TicketService.csproj" />
+    <ProjectReference Include="..\TicketService.DAL\TicketService.DAL.csproj" />
   </ItemGroup>
 
 </Project>

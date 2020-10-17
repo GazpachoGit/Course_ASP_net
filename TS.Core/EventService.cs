@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TicketService.Database;
-using TicketService.Models;
+using TicketService.DAL.Database;
+using TicketService.DAL.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 

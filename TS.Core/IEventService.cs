@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TicketService.Models;
+using TicketService.DAL.Models;
 
 namespace TicketService.Core
 {
