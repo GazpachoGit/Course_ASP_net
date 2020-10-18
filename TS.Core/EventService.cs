@@ -45,5 +45,17 @@ namespace TicketService.Core
         {
             return await context.Events.Include(e => e.Venue).ThenInclude(v => v.City).SingleOrDefaultAsync(e => e.EventId == Id);
         }
+        public async Task<bool> CreateEventOk(string eventName, DateTime eventDate, int venueId)
+        {
+            if (await context.Events.FirstOrDefaultAsync(e => 
+            e.Name == eventName &&
+            e.Date == eventDate &&
+            e.VenueId == venueId) == null) {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
     }
 }

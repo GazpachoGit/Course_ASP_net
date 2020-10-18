@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +43,8 @@ namespace TicketService
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<ITicketsService, TicketsService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IVenueService, VenueService>();
+            services.AddScoped<ICityService, CityService>();
             services.AddScoped<UserManager>();
             //services.AddSingleton<TestData>();
             services.AddLocalization(options => {
@@ -66,6 +69,8 @@ namespace TicketService
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             var supportedCultures = new[]

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TicketService.Core;
+using TicketService.DAL.Models;
 using TicketService.Models;
 
 namespace TicketService.Controllers
@@ -16,11 +19,14 @@ namespace TicketService.Controllers
     {
         
         private readonly IEventService eventService;
+        private readonly IVenueService venueSevice;
+        private readonly ICityService cityService;
 
-        public EventsController(IEventService eventService)
+        public EventsController(IEventService eventService, IVenueService venueSevice, ICityService cityService)
         {
-            
+            this.venueSevice = venueSevice;
             this.eventService = eventService;
+            this.cityService = cityService;
         }
 
 
@@ -37,6 +43,34 @@ namespace TicketService.Controllers
 
             var Event = await eventService.GetEventById(id);
             return View(Event);
+        }
+
+        public async Task<IActionResult> CreateView()
+        {
+            var venues = await venueSevice.GetAllVenues();
+            ViewBag.Venues = new SelectList(venues, "Id", "Name");
+            return View();
+        }
+        public async Task<IActionResult> CreateEvent(EventViewModel eventModel)
+        {
+            
+            if(await eventService.CreateEventOk(eventModel.Name, eventModel.Date, eventModel.VenueId))
+            {
+                var newEvent = new Event()
+                {
+                    Name = eventModel.Name,
+                    Date = eventModel.Date,
+                    VenueId = eventModel.VenueId
+                };
+                await eventService.CreateEvent(newEvent);
+                return RedirectToAction("Index", "Events");
+            } else
+            {
+                ModelState.AddModelError(nameof(eventModel.Name), "This event exist");
+                return View("CreateView");
+            }
+            
+            
         }
 
 

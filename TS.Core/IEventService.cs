@@ -13,6 +13,7 @@ namespace TicketService.Core
         Task<int> CreateEvent(Event _event);
         Task EditEvent(int Id);
         Task DeleteEvent(int Id);
+        Task<bool> CreateEventOk(string eventName, DateTime eventDate, int venueId);
 
     }
 }

@@ -1,10 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @model List<TicketService.DAL.Models.Event>
-@{ ViewData["Title"] = "Events Page"; }
+@{ ViewData["Title"] = "Events Page"; } 
 
 
 <h1>@Localizer["Title"]</h1>
+<div class="d-flex">
+    <div>
+        <a class="btn btn-primary" asp-area="" asp-controller="Events" asp-action="CreateView">>+</a>
+    </div>
+</div>
 <table class=" table table-responsive table-striped">
                 <thead>
                     <tr>
