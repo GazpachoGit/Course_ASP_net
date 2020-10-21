@@ -31,9 +31,10 @@ namespace TicketService.Core
             await context.SaveChangesAsync();
         }
 
-        public Task EditEvent(int EventId)
+        public async Task EditEvent(Event _event)
         {
-            throw new NotImplementedException();
+            context.Events.Update(_event);
+            await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Event>> GetAllEvents()
@@ -50,9 +51,11 @@ namespace TicketService.Core
             if (await context.Events.FirstOrDefaultAsync(e => 
             e.Name == eventName &&
             e.Date == eventDate &&
-            e.VenueId == venueId) == null) {
+            e.VenueId == venueId) == null) 
+            {
                 return true;
-            } else
+            } 
+            else
             {
                 return false;
             }

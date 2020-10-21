@@ -11,7 +11,7 @@ namespace TicketService.Core
         Task<Event> GetEventById(int Id);
 
         Task<int> CreateEvent(Event _event);
-        Task EditEvent(int Id);
+        Task EditEvent(Event _event);
         Task DeleteEvent(int Id);
         Task<bool> CreateEventOk(string eventName, DateTime eventDate, int venueId);
 
