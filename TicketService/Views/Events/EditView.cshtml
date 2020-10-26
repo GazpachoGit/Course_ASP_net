@@ -1,11 +1,14 @@
-﻿@model TicketService.Models.EventViewModel
+﻿@model TicketService.DAL.Models.Event
 
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="d-flex">
+    <div class="m-2">
+        <a class="btn btn-outline-secondary" href="/">< cancel</a>
+    </div>
+    <div class="m-2 col-md-4">
         <form asp-action="EditEvent" asp-route-id="model.Id">
-            @Html.HiddenFor(model => model.Id);
+            @Html.HiddenFor(model => model.EventId)
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>

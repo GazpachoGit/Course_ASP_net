@@ -4,3 +4,70 @@
 
 <h1>@Localizer["Title"]</h1>
 
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-City-tab" data-toggle="tab" href="#nav-City" role="tab" aria-controls="nav-City" aria-selected="true">Cities</a>
+        <a class="nav-item nav-link" id="nav-Venue-tab" data-toggle="tab" href="#nav-Venue" role="tab" aria-controls="nav-Venue" aria-selected="false">Venues</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade  show active" id="nav-City" role="tabpanel" aria-labelledby="nav-City-tab">
+        <div class="container">
+            <h2>Cities</h2>
+            <div class="row">
+                <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="CreateCityView">+</a>
+            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div asp- class="alert alert-danger" role="alert">@ViewBag.Message</div>
+            }
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach (var item in ViewBag.Cities)
+                {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="EditCityView" asp-route-cityId="@item.CityId">Edit</a>
+            </td>
+            <td>
+                <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="DeleteCity" asp-route-cityId="@item.CityId">Delete</a>
+            </td>
+        </tr>
+}
+            </table>
+        </div> 
+    </div>
+    <div class="tab-pane fade" id="nav-Venue" role="tabpanel" aria-labelledby="nav-Venue-tab">
+        <h2>Venues</h2>
+        <table class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in ViewBag.Venues)
+            {
+    <tr>
+        <td>
+            @item.Name
+        </td>
+    </tr>            
+    }
+        </table>
+    </div>
+</div>
+

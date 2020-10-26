@@ -19,5 +19,31 @@ namespace TicketService.Core
         {
             return await context.Cities.ToListAsync();
         }
+
+        public async Task<int> CreateCity(City city)
+        {
+            await context.Cities.AddAsync(city);
+            await context.SaveChangesAsync();
+            return city.CityId;
+        }
+        public async Task<int> EditCity(City city)
+        {
+            context.Cities.Update(city);
+            await context.SaveChangesAsync();
+            return city.CityId;
+        }
+
+        public async Task DeleteCity(int Id)
+        {
+            var city = await context.Cities.FindAsync(Id);
+            context.Cities.Remove(city);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<City> GetCityById(int cityId)
+        {
+            return await context.Cities.FindAsync(cityId);
+            
+        }
     }
 }

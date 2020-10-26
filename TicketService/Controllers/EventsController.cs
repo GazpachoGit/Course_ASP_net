@@ -54,62 +54,43 @@ namespace TicketService.Controllers
         public async Task<IActionResult> EditView(int Id)
         {
             var _event = await eventService.GetEventById(Id);
-            var eventModel = new EventViewModel()
-            {
-                Id = _event.EventId,
-                Name = _event.Name,
-                Date = _event.Date,
-                VenueId = _event.VenueId
-            };
             var venues = await venueSevice.GetAllVenues();
             var selectList = new SelectList(venues, "Id", "Name", _event.VenueId);           
             ViewBag.Venues = selectList;           
-            return View(eventModel);
+            return View(_event);
         }
-        public async Task<IActionResult> EditEvent(EventViewModel eventModel)
+        public async Task<IActionResult> EditEvent(Event _event)
         {
-            if (await eventService.CreateEventOk(eventModel.Name, eventModel.Date, eventModel.VenueId))
+            if (await eventService.CreateEventOk(_event))
             {
-                var _newEvent = new Event
-                {
-                    EventId = eventModel.Id,
-                    Name = eventModel.Name,
-                    Date = eventModel.Date,
-                    VenueId = eventModel.VenueId
-                };
-                await eventService.EditEvent(_newEvent);
+                await eventService.EditEvent(_event);
                 return RedirectToAction("Index", "Events");
             }
             else
             {
-                ModelState.AddModelError(nameof(eventModel.Name), "This event exist");
+                ModelState.AddModelError(nameof(_event.Name), "This event exist");
                 return View("EditView");
             }
         }
-        public async Task<IActionResult> CreateEvent(EventViewModel eventModel)
-        {
-            
-            if(await eventService.CreateEventOk(eventModel.Name, eventModel.Date, eventModel.VenueId))
+        public async Task<IActionResult> CreateEvent(Event _event)
+        {           
+            if(await eventService.CreateEventOk(_event))
             {
-                var newEvent = new Event()
-                {
-                    Name = eventModel.Name,
-                    Date = eventModel.Date,
-                    VenueId = eventModel.VenueId
-                };
-                await eventService.CreateEvent(newEvent);
+                await eventService.CreateEvent(_event);
                 return RedirectToAction("Index", "Events");
             } else
             {
-                ModelState.AddModelError(nameof(eventModel.Name), "This event exist");
+                ModelState.AddModelError(nameof(_event.Name), "This event exist");
                 return View("CreateView"); 
-            }
-            
-            
+            }                       
+        }
+        public async Task<IActionResult> DeleteEvent(int id)
+        {
+            await eventService.DeleteEvent(id);
+            return RedirectToAction("Index", "Events");
         }
 
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+            [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

@@ -11,6 +11,8 @@ namespace TicketService.Core
         Task<IEnumerable<User>> GetAllUsers();
         Task<User> GetUser(string userName);
         Task<string> GetUserRole(string userName);
+        Task<IEnumerable<User>> GetAllUsersNames();
+        
     }
     
 }

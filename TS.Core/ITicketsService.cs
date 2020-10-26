@@ -9,5 +9,8 @@ namespace TicketService.Core
     public interface ITicketsService
     {
         Task<IEnumerable<Ticket>> GetTicketsByEventId(int eventId);
+        Task<int> CreateTicket(Ticket ticket);
+        Task<IEnumerable<Ticket>> GetTicketsSellingByUsername(string userName);
+        Task<int> BuyTicket(int ticketId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TicketService.DAL.Database;
@@ -19,6 +20,11 @@ namespace TicketService.Core
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await Users.ToListAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersNames()
+        {
+            return await Users.Select(u => new User { UserName = u.UserName, Id = u.Id }).ToListAsync();
         }
 
         public async Task<User> GetUser(string userName)

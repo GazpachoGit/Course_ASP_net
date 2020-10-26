@@ -8,34 +8,44 @@
     </div>
     <div class="col-11 container-fluid">
         <h1>@Localizer["Title"]</h1>
-            <table class="table table-responsive table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            @Localizer["EventId"]
-                        </th>
-                        <th>
-                            @Localizer["SellerName"]
-                        </th>
-                        <th>
-                            @Localizer["Price"]
-                        </th>
-                    </tr>
-                </thead>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @item.Event.EventId
-                        </td>
-                        <td>
-                            @item.Seller.LastName  @item.Seller.FirstName
-                        </td>
-                        <td>
-                            @item.Price
-                        </td>
-                    </tr>
-                }
-            </table>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="row">
+                <a class="btn btn-primary m-2" asp-area="" asp-controller="Tickets" asp-action="CreateView" asp-route-eventId="@Model.FirstOrDefault().EventId">+</a>
+            </div>
+        }
+        <table class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Localizer["EventId"]
+                    </th>
+                    <th>
+                        @Localizer["SellerName"]
+                    </th>
+                    <th>
+                        @Localizer["Price"]
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Event.EventId
+                    </td>
+                    <td>
+                        @item.Seller.LastName  @item.Seller.FirstName
+                    </td>
+                    <td>
+                        @item.Price
+                    </td>
+
+                </tr>
+            }
+        </table>
     </div>
 </div>

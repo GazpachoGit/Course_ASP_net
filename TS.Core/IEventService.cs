@@ -9,11 +9,12 @@ namespace TicketService.Core
     {
         Task<IEnumerable<Event>> GetAllEvents();
         Task<Event> GetEventById(int Id);
+        Task<Event> GetEventByIdWithTickets(int Id);
 
         Task<int> CreateEvent(Event _event);
         Task EditEvent(Event _event);
         Task DeleteEvent(int Id);
-        Task<bool> CreateEventOk(string eventName, DateTime eventDate, int venueId);
+        Task<bool> CreateEventOk(Event _event);
 
     }
 }

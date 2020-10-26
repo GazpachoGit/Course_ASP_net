@@ -26,7 +26,7 @@ namespace TicketService.Core
 
         public async Task DeleteEvent(int Id)
         {
-           var _event = await context.Events.FindAsync(Id);
+            var _event = await context.Events.Include(e => e.Tickets).SingleOrDefaultAsync(e => e.EventId .Equals(Id));
             context.Events.Remove(_event);
             await context.SaveChangesAsync();
         }
@@ -46,12 +46,16 @@ namespace TicketService.Core
         {
             return await context.Events.Include(e => e.Venue).ThenInclude(v => v.City).SingleOrDefaultAsync(e => e.EventId == Id);
         }
-        public async Task<bool> CreateEventOk(string eventName, DateTime eventDate, int venueId)
+        public async Task<Event> GetEventByIdWithTickets(int Id)
+        {
+            return await context.Events.Include(e => e.Venue).ThenInclude(v => v.City).Include(e => e.Tickets).SingleOrDefaultAsync(e => e.EventId == Id);
+        }
+        public async Task<bool> CreateEventOk(Event _event)
         {
             if (await context.Events.FirstOrDefaultAsync(e => 
-            e.Name == eventName &&
-            e.Date == eventDate &&
-            e.VenueId == venueId) == null) 
+            e.Name == _event.Name &&
+            e.Date == _event.Date &&
+            e.VenueId == _event.VenueId) == null) 
             {
                 return true;
             } 

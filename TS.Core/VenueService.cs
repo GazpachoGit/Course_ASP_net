@@ -28,6 +28,19 @@ namespace TicketService.Core
             var venue = await context.Venues.FirstOrDefaultAsync(v => v.Name == VenueName);
             return venue.Id;
         }
-
+        public async Task<int> CreateVenue(Venue venue)
+        {
+            await context.Venues.AddAsync(venue);
+            await context.SaveChangesAsync();
+            return venue.Id;
+        }
+        public async Task<IEnumerable<Venue>> GetVenuesByCity(int cityId)
+        {
+            return await context.Venues.Where(v => v.CityId == cityId).ToListAsync();
+        }
+        public async Task<bool> VenueExistByCity(int cityId)
+        {
+            return await context.Venues.Where(v => v.CityId == cityId).AnyAsync();
+        }
     }
 }

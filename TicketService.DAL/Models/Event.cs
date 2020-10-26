@@ -8,6 +8,7 @@ namespace TicketService.DAL.Models
     public class Event
     {
         public int EventId { get; set; }
+        public ICollection<Ticket> Tickets {get; set;}
         public string Name { get; set; }
         public DateTime Date { get; set; }
         public int VenueId { get; set; }
