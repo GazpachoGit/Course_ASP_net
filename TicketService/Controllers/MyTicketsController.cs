@@ -10,7 +10,7 @@ namespace TicketService.Controllers
     public class MyTicketsController : Controller
     {
         private readonly ITicketsService ticketsService;
-        //private readonly string username;
+        
 
         public MyTicketsController(ITicketsService ticketsService)
         {
@@ -20,8 +20,13 @@ namespace TicketService.Controllers
         public async Task<IActionResult> Index()
         {
             var username = User.Identity.Name;
-            var tickets = await ticketsService.GetTicketsSellingByUsername(username);            
+            var tickets = await ticketsService.GetTicketsByUsername(username);            
             return View(tickets);
+        }
+        public async Task<IActionResult> ApproveTicket(int ticketId)
+        {
+            await ticketsService.ApproveTicket(ticketId);
+            return RedirectToAction("Index");
         }
     }
 }

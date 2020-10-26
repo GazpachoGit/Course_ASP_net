@@ -28,18 +28,31 @@ namespace TicketService.Core
             return ticket.EventId;
         }
 
-        public async Task<IEnumerable<Ticket>> GetTicketsSellingByUsername(string userName)
+        public async Task<IEnumerable<Ticket>> GetTicketsByUsername(string userName)
         {
             return await context.Tickets.Where(t => t.Seller.UserName == userName).Include(t => t.Event).ThenInclude(e => e.Venue).ToListAsync();
         }
 
         public async Task<int> BuyTicket(int ticketId)
         {
-           // var ticket = await context.Tickets.SingleOrDefaultAsync(t => t.TicketId == ticketId);
-           // ticket.Status = TicketStatus.Waiting;
-           // await context.SaveChangesAsync();
+           var ticket = await context.Tickets.SingleOrDefaultAsync(t => t.TicketId == ticketId);
+           ticket.Status = TicketStatus.Waiting;
+           await context.SaveChangesAsync();
             return ticketId;
 
+        }
+
+        public async Task<IEnumerable<Ticket>> GetTicketsSellingByEventId(int eventId)
+        {
+            return await context.Tickets.Where(t => t.Event.EventId == eventId).Where(t => t.Status == TicketStatus.Selling).Include(t => t.Event).Include(t => t.Seller).ToListAsync();
+        }
+
+        public async Task<int> ApproveTicket(int ticketId)
+        {
+            var ticket = await context.Tickets.FindAsync(ticketId);
+            ticket.Status = TicketStatus.Sold;
+            await context.SaveChangesAsync();
+            return ticketId;
         }
     }
 }

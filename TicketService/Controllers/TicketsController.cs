@@ -29,7 +29,7 @@ namespace TicketService.Controllers
         [Route("Event/{id}/Tickets")]
         public async Task<IActionResult> Tickets(int id)
         {
-            var Tickets = await ticketsService.GetTicketsByEventId(id);
+            var Tickets = await ticketsService.GetTicketsSellingByEventId(id);
             return View(Tickets);
         }
         public async Task<IActionResult> CreateView(int eventId)
@@ -50,7 +50,7 @@ namespace TicketService.Controllers
         public async Task<IActionResult> BuyTicket(int ticketId)
         {
             await ticketsService.BuyTicket(ticketId);
-            return View("Index");
+            return RedirectToAction("Event", "Index");
         }
     }
 }

@@ -43,6 +43,9 @@
                     <td>
                         @item.Price
                     </td>
+                     <td>
+                         <a class="btn btn-primary m-2" asp-area="" asp-controller="Tickets" asp-action="BuyTicket" asp-route-ticketId="@item.TicketId">Buy</a>
+                    </td>
 
                 </tr>
             }

@@ -1,6 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using TicketService.DAL.Models;
 @inject IViewLocalizer Localizer
 @model IEnumerable<TicketService.DAL.Models.Ticket>
+@{
+    var Selling = Model.Where(t => t.Status == TicketStatus.Selling);
+    var Waiting = Model.Where(t => t.Status == TicketStatus.Waiting);
+    var Sold = Model.Where(t => t.Status == TicketStatus.Sold);
+    }
 
 <h1>@Localizer["Title"]</h1>
 
@@ -13,50 +19,160 @@
 </nav>
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-Selling" role="tabpanel" aria-labelledby="nav-Selling-tab">
-            <div class="container">
-                <div class="d-flex">
-                    <table class="table table-responsive table-striped">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Localizer["EventId"]
-                                </th>
-                                <th>
-                                    @Localizer["Event"]
-                                </th>
-                                <th>
-                                    @Localizer["Venue"]
-                                </th>
-                                <th>
-                                    @Localizer["Price"]
-                                </th>
-                            </tr>
-                        </thead>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @item.EventId
-                                </td>
-                                <td>
-                                    @item.Event.Name
-                                </td>
-                                <td>
-                                    @item.Event.Venue.Name
-                                </td>
-                                <td>
-                                    @item.Price
-                                </td>
-                            </tr>
-                        }
-                    </table>
+        <h2>Selling</h2>
+        @{ if (!Selling.Any())
+            {
+                <h4>No tickets for selling</h4>
+            }
+            else
+            {
+                <div class="container">
+                    <div class="d-flex">
+                        <table class="table table-responsive table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Localizer["EventId"]
+                                    </th>
+                                    <th>
+                                        @Localizer["Event"]
+                                    </th>
+                                    <th>
+                                        @Localizer["Venue"]
+                                    </th>
+                                    <th>
+                                        @Localizer["Price"]
+                                    </th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Selling)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.EventId
+                                    </td>
+                                    <td>
+                                        @item.Event.Name
+                                    </td>
+                                    <td>
+                                        @item.Event.Venue.Name
+                                    </td>
+                                    <td>
+                                        @item.Price
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
                 </div>
-            </div>
+            }
+        }
+
     </div>
     <div class="tab-pane fade" id="nav-Sold" role="tabpanel" aria-labelledby="nav-Sold-tab">
-        Sold
+        <h2>Sold</h2>
+        @{
+            if (!Sold.Any())
+            {
+                <h4>No sold tickets yet</h4>
+            }
+            else
+            {
+                <div class="container">
+                    <div class="d-flex">
+                        <table class="table table-responsive table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Localizer["EventId"]
+                                    </th>
+                                    <th>
+                                        @Localizer["Event"]
+                                    </th>
+                                    <th>
+                                        @Localizer["Venue"]
+                                    </th>
+                                    <th>
+                                        @Localizer["Price"]
+                                    </th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Sold)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.EventId
+                                    </td>
+                                    <td>
+                                        @item.Event.Name
+                                    </td>
+                                    <td>
+                                        @item.Event.Venue.Name
+                                    </td>
+                                    <td>
+                                        @item.Price
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            }
+        }
+
     </div>
     <div class="tab-pane fade" id="nav-Waiting" role="tabpanel" aria-labelledby="nav-Waiting-tab">
-        Waiting
+        <h2>Waiting</h2>
+        @{if (!Waiting.Any())
+            {
+                <h4>No tickets on waiting</h4>
+            }
+            else
+            {
+        <div class="container">
+            <div class="d-flex">
+                <table class="table table-responsive table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Localizer["EventId"]
+                            </th>
+                            <th>
+                                @Localizer["Event"]
+                            </th>
+                            <th>
+                                @Localizer["Venue"]
+                            </th>
+                            <th>
+                                @Localizer["Price"]
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Waiting)
+                    {
+                        <tr>
+                            <td>
+                                @item.EventId
+                            </td>
+                            <td>
+                                @item.Event.Name
+                            </td>
+                            <td>
+                                @item.Event.Venue.Name
+                            </td>
+                            <td>
+                                @item.Price
+                            </td>
+                            <td>                                
+                                <a class="btn btn-primary m-2" asp-area="" asp-controller="MyTickets" asp-action="ApproveTicket" asp-route-ticketId="@item.TicketId">Approve</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+
+            </div>
+        </div>
+                } }
     </div>
 </div>
