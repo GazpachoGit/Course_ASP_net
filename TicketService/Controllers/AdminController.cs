@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TicketService.Core;
 using TicketService.DAL.Models;
 using TicketService.Models;
@@ -64,6 +65,24 @@ namespace TicketService.Controllers
                 await cityService.DeleteCity(cityId);
                 return RedirectToAction("Index", "Admin");
             }
+        }
+        public async Task<IActionResult> CreateVenueView()
+        {
+            var cities = await cityService.GetAllCities();
+            ViewBag.Cities = new SelectList(cities, "CityId", "Name");
+            return View();
+        }
+        public async Task<IActionResult> CreateVenue(Venue venue)
+        {
+            await venueService.CreateVenue(venue);
+            return RedirectToAction("Index", "Admin");
+        }
+        public async Task<IActionResult> EditVenueView(int venueId)
+        {
+            var venue = await venueService.GetVenueById(venueId);
+            var cities = await cityService.GetAllCities();
+            ViewBag.Cities = new SelectList(cities, "CityId", "Name", venue.CityId);
+            return View(venue);
         }
     }
 }

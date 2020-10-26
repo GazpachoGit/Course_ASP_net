@@ -2,8 +2,11 @@
 
 <h4>City</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="d-flex">
+    <div class="m-2">
+        <a class="btn btn-outline-secondary" asp-controller="Admin" asp-action="Index">< cancel</a>
+    </div>
+    <div class="m-2">
         <form asp-action="EditCity">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(model => model.CityId)

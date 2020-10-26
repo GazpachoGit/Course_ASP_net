@@ -42,9 +42,9 @@ namespace TicketService.Core
 
         }
 
-        public async Task<IEnumerable<Ticket>> GetTicketsSellingByEventId(int eventId)
+        public async Task<IEnumerable<Ticket>> GetTicketsAvailableByEventId(int eventId)
         {
-            return await context.Tickets.Where(t => t.Event.EventId == eventId).Where(t => t.Status == TicketStatus.Selling).Include(t => t.Event).Include(t => t.Seller).ToListAsync();
+            return await context.Tickets.Where(t => t.Event.EventId == eventId).Where(t => t.Status == TicketStatus.Selling || t.Status == TicketStatus.Waiting).Include(t => t.Event).Include(t => t.Seller).ToListAsync();
         }
 
         public async Task<int> ApproveTicket(int ticketId)

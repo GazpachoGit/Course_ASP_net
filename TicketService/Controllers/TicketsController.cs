@@ -29,7 +29,7 @@ namespace TicketService.Controllers
         [Route("Event/{id}/Tickets")]
         public async Task<IActionResult> Tickets(int id)
         {
-            var Tickets = await ticketsService.GetTicketsSellingByEventId(id);
+            var Tickets = await ticketsService.GetTicketsAvailableByEventId(id);
             return View(Tickets);
         }
         public async Task<IActionResult> CreateView(int eventId)

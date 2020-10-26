@@ -9,6 +9,7 @@ namespace TicketService.Core
     public interface IVenueService
     {
         Task<int> GetVenueIdByName(string VenueName);
+        Task<Venue> GetVenueById(int venueId);
         Task<IEnumerable<Venue>> GetAllVenues();
         Task<int> CreateVenue(Venue venue);
         Task<IEnumerable<Venue>> GetVenuesByCity(int cityId);

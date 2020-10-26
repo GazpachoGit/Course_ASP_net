@@ -42,5 +42,11 @@ namespace TicketService.Core
         {
             return await context.Venues.Where(v => v.CityId == cityId).AnyAsync();
         }
+
+        public async Task<Venue> GetVenueById(int venueId)
+        {
+            return await context.Venues.FindAsync(venueId);
+
+        }
     }
 }
