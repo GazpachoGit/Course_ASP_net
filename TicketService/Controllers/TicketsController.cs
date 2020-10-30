@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +18,9 @@ namespace TicketService.Controllers
 
         private readonly ITicketsService ticketsService;
         private readonly IEventService eventService;
-        private readonly IUserService userService;
+        private readonly UserManager<IdentityUser> userService;
 
-        public TicketsController(ITicketsService ticketsService, IEventService eventService, IUserService userService)
+        public TicketsController(ITicketsService ticketsService, IEventService eventService, UserManager<IdentityUser> userService)
         {
             this.eventService = eventService;
             this.userService = userService;
@@ -34,8 +35,8 @@ namespace TicketService.Controllers
         }
         public async Task<IActionResult> CreateView(int eventId)
         {
-            var Sellers = await userService.GetAllUsersNames();
-            ViewBag.Sellers = new SelectList(Sellers, "Id", "UserName");
+ //           var Sellers = await userService.GetAllUsersNames();
+ //           ViewBag.Sellers = new SelectList(Sellers, "Id", "UserName");
             ViewBag.Event = await eventService.GetEventById(eventId);
             return View();
         }

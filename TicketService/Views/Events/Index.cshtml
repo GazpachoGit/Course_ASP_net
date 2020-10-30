@@ -7,7 +7,7 @@
 
 <h1>@Localizer["Title"]</h1>
 <div class="d-flex">
-    @if (User.IsInRole(Roles.Administrator))
+    @if (User.IsInRole("Admin"))
     {
 <div class="m-2">
     <a class="btn btn-primary" asp-area="" asp-controller="Events" asp-action="CreateView">+</a>

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -33,26 +34,55 @@ namespace TicketService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddViewLocalization();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            /*services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/User/Login";
                     options.AccessDeniedPath = "/User/Login";
                     options.Cookie.Name = "AuthTicketService";
-                });
+                });*/
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<ITicketsService, TicketsService>();
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IVenueService, VenueService>();
             services.AddScoped<ICityService, CityService>();
-            services.AddScoped<UserManager>();
-            //services.AddSingleton<TestData>();
             services.AddLocalization(options => {
                 options.ResourcesPath = "Resources";
             });
             services.AddDbContext<TicketServiceContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("TicketServiceConnection"));
+            });
+            //services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<TicketServiceContext>();
+            services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<TicketServiceContext>();
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Default Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+                // Default Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 1;
+                // Default User settings.
+                options.User.AllowedUserNameCharacters =
+                        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.Cookie.Name = "YourAppCookieName";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.LoginPath = "/Identity/Account/Login";
+                // ReturnUrlParameter requires 
+                //using Microsoft.AspNetCore.Authentication.Cookies;
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
             });
         }
 
@@ -92,10 +122,12 @@ namespace TicketService
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Events}/{action=Index}/{id?}");
             });
+            
         }
     }
 }

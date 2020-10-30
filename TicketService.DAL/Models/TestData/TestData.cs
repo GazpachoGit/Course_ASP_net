@@ -1,5 +1,6 @@
 ﻿
 using Bogus;
+using Microsoft.AspNetCore.Identity;
 //using Microsoft.AspNetCore.Authentication;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,15 @@ namespace TicketService.DAL.Models.TestData
     public class TestData
     {
 
-        public TestData(TicketServiceContext contex) {
-            InitUsers();
+        public TestData(TicketServiceContext contex, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager) {
+//            InitUsers();
             InitCities();
             InitVenues();
             InitEvents();
             InitTickets();
             this.contex = contex;
-            
+            this.userManager = userManager;
+            this.roleManager = roleManager;
            
 
 
@@ -28,9 +30,12 @@ namespace TicketService.DAL.Models.TestData
         public List<Ticket> Tickets { get; set; }
         public List<Venue> Venues { get; set; }
         public List<City> Cities { get; set; }
-        public List<User> Users { get; set; }
+ //       public List<User> Users { get; set; }
 
         private readonly TicketServiceContext contex;
+
+        private readonly UserManager<IdentityUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
         public void InitEvents() {
             var EventFacer = new Faker<Event>()
@@ -59,7 +64,7 @@ namespace TicketService.DAL.Models.TestData
             var tickets = TicketFaker.Generate(20);
             foreach( var item in tickets) 
             {
-                item.Seller = Users.Random();
+                //item.Seller = Users.Random();
                 item.Event = Events.Random();
             }
             Tickets = tickets;
@@ -87,21 +92,41 @@ namespace TicketService.DAL.Models.TestData
             var cities = CityFaker.Generate(5);
             Cities = cities;
         }
-        public void InitUsers() 
+/*        public async Task InitUsers() 
         {
-            Users = new List<User>()
+            if (!userManager.Users.Any())
+            {
+               
+            }
+
+*//*                Users = new List<User>()
             {
                 new User() { FirstName ="Jonh", LastName = "Doe", Address = "Пушкина 3 дом Колотушкина 4", Localization = "Moscow", 
                 UserName = "user", Password = "user", Role = Roles.User},
                 new User() { FirstName ="Egor", LastName = "Tornikov", Address = "Пушкина 1 дом Колотушкина 2", Localization = "Vladivostok", 
                 UserName = "Admin", Password = "admin", Role = Roles.Administrator}
-            };
-        }
+            };*//*
+        }*/
 
         public async Task SeedDataAsync()
         {
             await contex.Database.EnsureCreatedAsync();
-            if(!contex.Events.Any())
+
+            if (await roleManager.FindByNameAsync("Admin") == null && await roleManager.FindByNameAsync("User") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
+                await roleManager.CreateAsync(new IdentityRole { Name = "User" });
+            }
+
+            //var user1 = new IdentityUser() { UserName = "Admin"};
+            //var user2 = new IdentityUser() { UserName = "User"};
+            //await userManager.CreateAsync(user1, "admin123");
+            //await userManager.CreateAsync(user2, "user");
+            var user1 = await userManager.FindByNameAsync("user");
+            await userManager.AddToRoleAsync(user1, "User");
+            //await userManager.AddToRoleAsync(user2, "User");
+
+            if (!contex.Events.Any())
             {
                 await contex.Events.AddRangeAsync(Events);
 
@@ -111,16 +136,11 @@ namespace TicketService.DAL.Models.TestData
                 await contex.Tickets.AddRangeAsync(Tickets);
 
             }
-            /*if (!contex.Cities.Any())
-            {
-                await contex.Cities.AddRangeAsync(Cities);
-
-            }*/
-            if (!contex.Users.Any())
+/*            if (!contex.Users.Any())
             {
                 await contex.Users.AddRangeAsync(Users);
 
-            }
+            }*/
             if (!contex.Venues.Any())
             {
                 await contex.Venues.AddRangeAsync(Venues);

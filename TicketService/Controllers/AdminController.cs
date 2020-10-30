@@ -11,7 +11,8 @@ using TicketService.Models;
 
 namespace TicketService.Controllers
 {
-    [Authorize(Roles = Roles.Administrator)]
+    //Roles = Roles.Administrator
+    [Authorize(Roles = "Admin")]
 
     public class AdminController : Controller
     {
