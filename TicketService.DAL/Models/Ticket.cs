@@ -12,7 +12,7 @@ namespace TicketService.DAL.Models
         public TicketStatus Status { get; set; }
         public int EventId { get; set; }
         public decimal Price { get; set; }
-        public int SellerId { get; set; }
+        public string SellerId { get; set; }
         public IdentityUser Seller { get; set; }
         public Event Event { get; set; }
     }

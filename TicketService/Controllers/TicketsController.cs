@@ -35,8 +35,8 @@ namespace TicketService.Controllers
         }
         public async Task<IActionResult> CreateView(int eventId)
         {
- //           var Sellers = await userService.GetAllUsersNames();
- //           ViewBag.Sellers = new SelectList(Sellers, "Id", "UserName");
+            var Sellers = await userService.Users.ToListAsync();
+            ViewBag.Sellers = new SelectList(Sellers, "Id", "UserName");
             ViewBag.Event = await eventService.GetEventById(eventId);
             return View();
         }
