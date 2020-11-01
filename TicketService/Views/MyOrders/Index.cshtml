@@ -1,5 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using TicketService.DAL.Models;
 @inject IViewLocalizer Localizer
+@model IEnumerable<TicketService.DAL.Models.Order>
+@{ var Confirmed = Model.Where(o => o.Status == OrderStatus.Confirmed);
+    var Rejected = Model.Where(o => o.Status == OrderStatus.Rejected);
+    var Waiting = Model.Where(o => o.Status == OrderStatus.Waiting);
+}
+
 <h1>@Localizer["Title"]</h1>
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -10,12 +17,107 @@
 </nav>
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-Confirmed" role="tabpanel" aria-labelledby="nav-Confirmed-tab">
-        Confirmed
+        <h2>Confirmed</h2>
+        @{ if (!Confirmed.Any())
+            {
+<h4>No tickets confirmed</h4> }
+            else
+            {
+<div class="container">
+    <div class="d-flex">
+        <table class="table table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Localizer["Event"]
+                    </th>
+                    <th>
+                        @Localizer["Price"]
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Confirmed)
+            {
+        <tr>
+            <td>
+                @item.Ticket.Event.Name
+            </td>
+            <td>
+                @item.Ticket.Price
+            </td>
+        </tr>}
+        </table>
+    </div>
+</div> } }
     </div>
     <div class="tab-pane fade" id="nav-Rejected" role="tabpanel" aria-labelledby="nav-Rejected-tab">
-        Rejected
+        <h2> Rejected </h2>
+        @{ if (!Rejected.Any())
+            {
+    <h4>No orderss rejected</h4> }
+else
+{
+    <div class="container">
+        <div class="d-flex">
+            <table class="table table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Localizer["Event"]
+                        </th>
+                        <th>
+                            @Localizer["Price"]
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var item in Rejected)
+                {
+    <tr>
+        <td>
+            @item.Ticket.Event.Name
+        </td>
+        <td>
+            @item.Ticket.Price
+        </td>
+    </tr>
+}
+            </table>
+        </div>
+    </div> } }
     </div>
     <div class="tab-pane fade" id="nav-Waiting" role="tabpanel" aria-labelledby="nav-Waiting-tab">
-        Waiting
+        <h2> Waiting </h2>
+        @{ if (!Waiting.Any())
+            {
+    <h4>No tickets waiting</h4> }
+else
+{
+    <div class="container">
+        <div class="d-flex">
+            <table class="table table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Localizer["Event"]
+                        </th>
+                        <th>
+                            @Localizer["Price"]
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var item in Waiting)
+                {
+    <tr>
+        <td>
+            @item.Ticket.Event.Name
+        </td>
+        <td>
+            @item.Ticket.Price
+        </td>
+    </tr>
+}
+            </table>
+        </div>
+    </div> } }
     </div>
 </div>

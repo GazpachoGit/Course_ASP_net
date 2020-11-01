@@ -13,6 +13,8 @@ namespace TicketService.Core
         Task<int> CreateTicket(Ticket ticket);
         Task<IEnumerable<Ticket>> GetTicketsByUsername(string userName);
         Task<int> BuyTicket(int ticketId);
-        Task<int> ApproveTicket(int ticketId); 
+        Task<int> ApproveTicket(int ticketId);
+        Task RejectTicket(int ticketId);
+        Task<bool> TicketOrderExist(int ticketId);
     }
 }

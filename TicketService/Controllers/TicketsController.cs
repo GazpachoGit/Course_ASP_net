@@ -18,16 +18,18 @@ namespace TicketService.Controllers
 
         private readonly ITicketsService ticketsService;
         private readonly IEventService eventService;
+        private readonly IOrderService orderService;
         private readonly UserManager<IdentityUser> userService;
 
-        public TicketsController(ITicketsService ticketsService, IEventService eventService, UserManager<IdentityUser> userService)
+        public TicketsController(ITicketsService ticketsService, IEventService eventService, UserManager<IdentityUser> userService, IOrderService orderService)
         {
             this.eventService = eventService;
             this.userService = userService;
             this.ticketsService = ticketsService;
+            this.orderService = orderService;
         }
 
-        [Route("Event/{id}/Tickets")]
+        [Route("Events/{id}/Tickets")]
         public async Task<IActionResult> Tickets(int id)
         {
             var Tickets = await ticketsService.GetTicketsAvailableByEventId(id);
@@ -36,7 +38,8 @@ namespace TicketService.Controllers
         public async Task<IActionResult> CreateView(int eventId)
         {
             var Sellers = await userService.Users.ToListAsync();
-            ViewBag.Sellers = new SelectList(Sellers, "Id", "UserName");
+            ViewBag.user = Sellers.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            ViewBag.Sellers = new SelectList(Sellers, "Id", "UserName", ViewBag.user.Id);
             ViewBag.Event = await eventService.GetEventById(eventId);
             return View();
         }
@@ -44,14 +47,16 @@ namespace TicketService.Controllers
         {
 
             await ticketsService.CreateTicket(ticket);
-            return LocalRedirect($"/Event/{ticket.EventId}/Tickets");
+            return LocalRedirect($"/Events/{ticket.EventId}/Tickets");
 
         }
         [Authorize]
         public async Task<IActionResult> BuyTicket(int ticketId)
         {
+            var user = await userService.GetUserAsync(User);
             await ticketsService.BuyTicket(ticketId);
-            return RedirectToAction("Event", "Index");
+            await orderService.CreateOrder(ticketId, user.Id);
+            return RedirectToAction("Index", "Events");
         }
     }
 }

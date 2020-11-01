@@ -54,5 +54,16 @@ namespace TicketService.Core
             await context.SaveChangesAsync();
             return ticketId;
         }
+
+        public async Task RejectTicket(int ticketId)
+        {
+            var ticket = await context.Tickets.FindAsync(ticketId);
+            ticket.Status = TicketStatus.Selling;
+            await context.SaveChangesAsync();
+        }
+        public async Task<bool> TicketOrderExist(int ticketId)
+        {
+            return await context.Orders.Where(o => o.TicketId == ticketId && o.Status == OrderStatus.Waiting).AnyAsync();
+        }
     }
 }

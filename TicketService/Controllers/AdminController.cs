@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TicketService.Core;
 using TicketService.DAL.Models;
 using TicketService.Models;
@@ -16,10 +18,12 @@ namespace TicketService.Controllers
 
     public class AdminController : Controller
     {
+        private readonly UserManager<IdentityUser> userManager;
         private readonly IVenueService venueService;
         private readonly ICityService cityService;
-        public AdminController(IVenueService venueService, ICityService cityService)
+        public AdminController(IVenueService venueService, ICityService cityService, UserManager<IdentityUser> userManager)
         {
+            this.userManager = userManager;
             this.venueService = venueService;
             this.cityService = cityService;
         }
@@ -32,6 +36,7 @@ namespace TicketService.Controllers
             }
             ViewBag.Cities = await cityService.GetAllCities();
             ViewBag.Venues = await venueService.GetAllVenues();
+            ViewBag.Users = await userManager.Users.ToListAsync();
             return View();
         }
 
@@ -84,6 +89,11 @@ namespace TicketService.Controllers
             var cities = await cityService.GetAllCities();
             ViewBag.Cities = new SelectList(cities, "CityId", "Name", venue.CityId);
             return View(venue);
+        }
+        public async Task<IActionResult> SetAdminRights(string userId)
+        {
+
+            return View();
         }
     }
 }

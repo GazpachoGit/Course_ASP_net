@@ -3,8 +3,9 @@
 @inject IViewLocalizer Localizer
 @model IEnumerable<TicketService.DAL.Models.Ticket>
 @{
-    var Selling = Model.Where(t => t.Status == TicketStatus.Selling);
-    var Waiting = Model.Where(t => t.Status == TicketStatus.Waiting);
+    var Selling = Model.Where(t => t.Status != TicketStatus.Sold);
+    var Waiting = ViewBag.Orders as IEnumerable<Order>;
+    Waiting = Waiting.Where(t => t.Status == OrderStatus.Waiting);
     var Sold = Model.Where(t => t.Status == TicketStatus.Sold);
     }
 
@@ -135,39 +136,37 @@
                     <thead>
                         <tr>
                             <th>
-                                @Localizer["EventId"]
+                                Event Name
                             </th>
                             <th>
-                                @Localizer["Event"]
+                                Price
                             </th>
                             <th>
-                                @Localizer["Venue"]
+                                Buyer
                             </th>
-                            <th>
-                                @Localizer["Price"]
-                            </th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     @foreach (var item in Waiting)
                     {
-                        <tr>
-                            <td>
-                                @item.EventId
-                            </td>
-                            <td>
-                                @item.Event.Name
-                            </td>
-                            <td>
-                                @item.Event.Venue.Name
-                            </td>
-                            <td>
-                                @item.Price
-                            </td>
-                            <td>                                
-                                <a class="btn btn-primary m-2" asp-area="" asp-controller="MyTickets" asp-action="ApproveTicket" asp-route-ticketId="@item.TicketId">Approve</a>
-                            </td>
-                        </tr>
+                <tr>
+                    <td>
+                        @item.Ticket.Event.Name
+                    </td>
+                    <td>
+                        @item.Ticket.Price
+                    </td>
+                    <td>
+                        @item.Buyer.UserName
+                    </td>
+                    <td>
+                        <a class="btn btn-primary m-2" asp-area="" asp-controller="MyTickets" asp-action="ApproveTicket" asp-route-ticketId="@item.TicketId" asp-route-orderId="@item.OrderId">Approve</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary m-2" asp-area="" asp-controller="MyTickets" asp-action="RejectTicket" asp-route-ticketId="@item.TicketId" asp-route-orderId="@item.OrderId">Reject</a>                       
+                    </td>
+                </tr>
                     }
                 </table>
 

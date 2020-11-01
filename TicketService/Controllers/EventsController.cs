@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -44,13 +45,14 @@ namespace TicketService.Controllers
             var Event = await eventService.GetEventById(id);
             return View(Event);
         }
-
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreateView()
         {
             var venues = await venueSevice.GetAllVenues();
             ViewBag.Venues = new SelectList(venues, "Id", "Name");
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditView(int Id)
         {
             var _event = await eventService.GetEventById(Id);
@@ -59,6 +61,7 @@ namespace TicketService.Controllers
             ViewBag.Venues = selectList;           
             return View(_event);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditEvent(Event _event)
         {
             if (await eventService.CreateEventOk(_event))
@@ -72,6 +75,7 @@ namespace TicketService.Controllers
                 return View("EditView");
             }
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateEvent(Event _event)
         {           
             if(await eventService.CreateEventOk(_event))
@@ -84,6 +88,7 @@ namespace TicketService.Controllers
                 return View("CreateView"); 
             }                       
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             await eventService.DeleteEvent(id);

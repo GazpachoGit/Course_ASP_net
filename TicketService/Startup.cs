@@ -45,6 +45,7 @@ namespace TicketService
             services.AddScoped<ITicketsService, TicketsService>();
             services.AddScoped<IVenueService, VenueService>();
             services.AddScoped<ICityService, CityService>();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddLocalization(options => {
                 options.ResourcesPath = "Resources";
             });
