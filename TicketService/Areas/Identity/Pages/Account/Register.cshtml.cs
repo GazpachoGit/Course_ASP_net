@@ -81,7 +81,7 @@ namespace TicketService.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                 
+                   await  _userManager.AddToRoleAsync(user, "User");
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
 
                         await _signInManager.SignInAsync(user, isPersistent: false);

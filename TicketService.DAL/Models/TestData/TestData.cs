@@ -117,14 +117,19 @@ namespace TicketService.DAL.Models.TestData
                 await roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
                 await roleManager.CreateAsync(new IdentityRole { Name = "User" });
             }
+            if(!userManager.Users.Any())
+            {
+                var users = new List<IdentityUser> 
+                {
+                    new IdentityUser() { UserName = "Admin"},
+                    new IdentityUser() { UserName = "User"}
+                 }; 
+                await userManager.CreateAsync(users[0], "admin");
+                await userManager.CreateAsync(users[1], "user");
+                await userManager.AddToRoleAsync(users[0], "User");
+                await userManager.AddToRoleAsync(users[1], "User");
+            }
 
-            //var user1 = new IdentityUser() { UserName = "Admin"};
-            //var user2 = new IdentityUser() { UserName = "User"};
-            //await userManager.CreateAsync(user1, "admin123");
-            //await userManager.CreateAsync(user2, "user");
-            var user1 = await userManager.FindByNameAsync("user");
-            await userManager.AddToRoleAsync(user1, "User");
-            //await userManager.AddToRoleAsync(user2, "User");
 
             if (!contex.Events.Any())
             {
@@ -133,6 +138,10 @@ namespace TicketService.DAL.Models.TestData
             }
             if (!contex.Tickets.Any())
             {
+                foreach(var item in Tickets)
+                {
+                    item.SellerId = userManager.Users.Random().Id;
+                }
                 await contex.Tickets.AddRangeAsync(Tickets);
 
             }

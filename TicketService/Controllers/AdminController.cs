@@ -92,8 +92,19 @@ namespace TicketService.Controllers
         }
         public async Task<IActionResult> SetAdminRights(string userId)
         {
-
-            return View();
+            var _user = await userManager.FindByIdAsync(userId);
+            if(_user.Id != userManager.GetUserId(User))
+            {
+                if(await userManager.IsInRoleAsync(_user, "Admin"))
+                {
+                    await userManager.RemoveFromRoleAsync(_user, "Admin");
+                }
+                else
+                {
+                    await userManager.AddToRoleAsync(_user, "Admin");
+                }
+            }
+            return RedirectToAction("Index", "Admin");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
+@inject Microsoft.AspNetCore.Identity.UserManager<Microsoft.AspNetCore.Identity.IdentityUser> UserManager;
 @{ ViewData["Title"] = "Index"; }
 
 <h1>@Localizer["Title"]</h1>
@@ -88,9 +89,8 @@
                         <th>
                             Email
                         </th>
-                        <th>
-
-                        </th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 @foreach (var item in ViewBag.Users)
@@ -104,6 +104,17 @@
                 </td>
                 <td>
                     <a class="btn btn-primary m-2" asp-area="" asp-controller="Account" asp-action="UserInfo" asp-route-userName="@item.UserName">Edit</a>
+                </td>
+                <td>
+                    @{ if ( await UserManager.IsInRoleAsync(item, "Admin")) 
+                        {
+                                        <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="SetAdminRights" asp-route-userId="@item.Id"> Remove Admin</a>
+                        } 
+                        else
+                        {
+                <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="SetAdminRights" asp-route-userId="@item.Id">Grant Admin</a>
+                        }
+                    }
                 </td>
             </tr>
 }
