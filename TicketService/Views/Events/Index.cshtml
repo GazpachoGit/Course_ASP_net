@@ -12,6 +12,13 @@
 <div class="m-2">
     <a class="btn btn-primary" asp-area="" asp-controller="Events" asp-action="CreateView">+</a>
 </div>}
+    @if (ViewBag.Messages != null)
+    {
+        foreach (var item in ViewBag.Messages)
+        {
+            <div asp- class="alert alert-danger" role="alert">@item</div>
+        }
+    }
 </div>
 <table class=" table table-responsive table-hover">
     <thead>

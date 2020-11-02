@@ -20,7 +20,7 @@ namespace TicketService.Core
 
         public async Task<IEnumerable<Venue>> GetAllVenues()
         {
-            return await context.Venues.ToListAsync();
+            return await context.Venues.Include(v => v.City).ToListAsync();
         }
 
         public async Task<int> GetVenueIdByName(string VenueName)
@@ -47,6 +47,12 @@ namespace TicketService.Core
         {
             return await context.Venues.FindAsync(venueId);
 
+        }
+
+        public async Task DeleteVenue(int venueId)
+        {
+            context.Venues.Remove(await context.Venues.FindAsync(venueId));
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -126,7 +126,7 @@ namespace TicketService.DAL.Models.TestData
                  }; 
                 await userManager.CreateAsync(users[0], "admin");
                 await userManager.CreateAsync(users[1], "user");
-                await userManager.AddToRoleAsync(users[0], "User");
+                await userManager.AddToRoleAsync(users[0], "Admin");
                 await userManager.AddToRoleAsync(users[1], "User");
             }
 

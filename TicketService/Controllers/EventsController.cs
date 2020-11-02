@@ -34,6 +34,10 @@ namespace TicketService.Controllers
         [HttpGet()]
         public async Task<IActionResult> Index()
         {
+            if (TempData != null && TempData.Count > 0)
+            {
+                ViewBag.Messages = TempData;
+            }
             var Events = await eventService.GetAllEvents();
             return View(Events);
         }

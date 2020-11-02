@@ -64,5 +64,10 @@ namespace TicketService.Core
                 return false;
             }
         }
+
+        public async Task<bool> EventsExistByVenue(int venueId)
+        {
+            return await context.Events.Where(e => e.VenueId == venueId).AnyAsync();                        
+        }
     }
 }

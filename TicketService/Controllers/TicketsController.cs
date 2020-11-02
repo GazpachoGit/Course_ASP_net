@@ -54,9 +54,18 @@ namespace TicketService.Controllers
         public async Task<IActionResult> BuyTicket(int ticketId)
         {
             var user = await userService.GetUserAsync(User);
-            await ticketsService.BuyTicket(ticketId);
-            await orderService.CreateOrder(ticketId, user.Id);
-            return RedirectToAction("Index", "Events");
+            var ticket = await ticketsService.GetTicket(ticketId);
+            if (ticket.SellerId == user.Id)
+            {
+                TempData["BuyTicketError"] = "Can't buy self tickets";
+                return RedirectToAction("Index", "Events");
+            }
+            else
+            {
+                await ticketsService.BuyTicket(ticketId);
+                await orderService.CreateOrder(ticketId, user.Id);
+                return RedirectToAction("Index", "Events");
+            }           
         }
     }
 }

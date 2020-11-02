@@ -10,7 +10,7 @@ using TicketService.DAL.Database;
 namespace TicketService.DAL.Migrations
 {
     [DbContext(typeof(TicketServiceContext))]
-    [Migration("20201030120341_Identity")]
+    [Migration("20201102070135_Identity")]
     partial class Identity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -272,14 +272,11 @@ namespace TicketService.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BuyerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BuyerId1")
+                    b.Property<string>("BuyerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
@@ -289,7 +286,7 @@ namespace TicketService.DAL.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("BuyerId1");
+                    b.HasIndex("BuyerId");
 
                     b.HasIndex("TicketId");
 
@@ -309,10 +306,7 @@ namespace TicketService.DAL.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("SellerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SellerId1")
+                    b.Property<string>("SellerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Status")
@@ -322,7 +316,7 @@ namespace TicketService.DAL.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.HasIndex("SellerId1");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Tickets");
                 });
@@ -414,7 +408,7 @@ namespace TicketService.DAL.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Buyer")
                         .WithMany()
-                        .HasForeignKey("BuyerId1");
+                        .HasForeignKey("BuyerId");
 
                     b.HasOne("TicketService.DAL.Models.Ticket", "Ticket")
                         .WithMany()
@@ -433,7 +427,7 @@ namespace TicketService.DAL.Migrations
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Seller")
                         .WithMany()
-                        .HasForeignKey("SellerId1");
+                        .HasForeignKey("SellerId");
                 });
 
             modelBuilder.Entity("TicketService.DAL.Models.Venue", b =>

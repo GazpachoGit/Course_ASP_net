@@ -19,9 +19,13 @@
             <div class="row">
                 <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="CreateCityView">+</a>
             </div>
-            @if (ViewBag.Message != null)
+            @if (ViewBag.Messages != null)
             {
-<div asp- class="alert alert-danger" role="alert">@ViewBag.Message</div>            }
+                foreach (var item in ViewBag.Messages)
+                {
+                    <div asp- class="alert alert-danger" role="alert">@item</div>
+                }
+            }
             <table class="table table-responsive table-hover">
                 <thead>
                     <tr>
@@ -32,17 +36,18 @@
                 </thead>
                 @foreach (var item in ViewBag.Cities)
                 {
-    <tr>
-        <td>
-            @item.Name
-        </td>
-        <td>
-            <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="EditCityView" asp-route-cityId="@item.CityId">Edit</a>
-        </td>
-        <td>
-            <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="DeleteCity" asp-route-cityId="@item.CityId">Delete</a>
-        </td>
-    </tr>}
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="EditCityView" asp-route-cityId="@item.CityId">Edit</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="DeleteCity" asp-route-cityId="@item.CityId">Delete</a>
+                        </td>
+                    </tr>
+}
             </table>
         </div>
     </div>
@@ -58,9 +63,9 @@
                         <th>
                             Name
                         </th>
-                        <th>
-
-                        </th>
+                        <th>City</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 @foreach (var item in ViewBag.Venues)
@@ -70,7 +75,13 @@
             @item.Name
         </td>
         <td>
+            @item.City.Name
+        </td>
+        <td>
             <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="EditVenueView" asp-route-venueId="@item.Id">Edit</a>
+        </td>
+        <td>
+            <a class="btn btn-primary m-2" asp-area="" asp-controller="Admin" asp-action="DeleteVenue" asp-route-venueId="@item.Id">Delete</a>            
         </td>
     </tr>
 }

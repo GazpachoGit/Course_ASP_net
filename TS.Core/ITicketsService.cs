@@ -16,5 +16,6 @@ namespace TicketService.Core
         Task<int> ApproveTicket(int ticketId);
         Task RejectTicket(int ticketId);
         Task<bool> TicketOrderExist(int ticketId);
+        Task<Ticket> GetTicket(int ticketId);
     }
 }

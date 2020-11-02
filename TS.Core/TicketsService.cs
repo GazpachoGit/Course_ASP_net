@@ -65,5 +65,10 @@ namespace TicketService.Core
         {
             return await context.Orders.Where(o => o.TicketId == ticketId && o.Status == OrderStatus.Waiting).AnyAsync();
         }
+
+        public async Task<Ticket> GetTicket(int ticketId)
+        {
+            return await context.Tickets.FindAsync(ticketId);
+        }
     }
 }

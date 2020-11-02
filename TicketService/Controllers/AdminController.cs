@@ -21,18 +21,19 @@ namespace TicketService.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly IVenueService venueService;
         private readonly ICityService cityService;
-        public AdminController(IVenueService venueService, ICityService cityService, UserManager<IdentityUser> userManager)
+        private readonly IEventService eventService;
+        public AdminController(IVenueService venueService, ICityService cityService, UserManager<IdentityUser> userManager, IEventService eventService)
         {
             this.userManager = userManager;
             this.venueService = venueService;
             this.cityService = cityService;
+            this.eventService = eventService;
         }
         public async Task<IActionResult> Index()
         {
-            if(TempData["DeleteError"] !=null)
-            {
-                //ModelState.AddModelError("Name", TempData["DeleteError"].ToString());
-                ViewBag.Message = "Venue for this city exists";
+            if(TempData !=null && TempData.Count > 0)
+            {                
+                     ViewBag.Messages = TempData;  
             }
             ViewBag.Cities = await cityService.GetAllCities();
             ViewBag.Venues = await venueService.GetAllVenues();
@@ -63,7 +64,7 @@ namespace TicketService.Controllers
             if(await venueService.VenueExistByCity(cityId))
             {
                 
-                TempData["DeleteError"] = "Venue exist";
+                TempData["DeleteCityError"] = "Venue in this city exists";
                 return RedirectToAction("Index", "Admin");
             }
             else
@@ -90,6 +91,20 @@ namespace TicketService.Controllers
             ViewBag.Cities = new SelectList(cities, "CityId", "Name", venue.CityId);
             return View(venue);
         }
+        public async Task<IActionResult> DeleteVenue(int venueId)
+        {
+            if (await eventService.EventsExistByVenue(venueId))
+            {
+
+                TempData["DeleteVenueError"] = "Event for this venue exists";
+                return RedirectToAction("Index", "Admin");
+            }
+            else
+            {
+                await venueService.DeleteVenue(venueId);
+                return RedirectToAction("Index", "Admin");
+            }
+        }
         public async Task<IActionResult> SetAdminRights(string userId)
         {
             var _user = await userManager.FindByIdAsync(userId);
@@ -103,6 +118,10 @@ namespace TicketService.Controllers
                 {
                     await userManager.AddToRoleAsync(_user, "Admin");
                 }
+            } 
+            else
+            {
+                TempData["SetError"] = "Can't manage yourself";
             }
             return RedirectToAction("Index", "Admin");
         }

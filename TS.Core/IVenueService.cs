@@ -14,5 +14,6 @@ namespace TicketService.Core
         Task<int> CreateVenue(Venue venue);
         Task<IEnumerable<Venue>> GetVenuesByCity(int cityId);
         Task<bool> VenueExistByCity(int cityId);
+        Task DeleteVenue(int venueId);
     }
 }
