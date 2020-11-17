@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Reflection;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,9 +19,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using TicketService.Core;
 using TicketService.DAL.Database;
+using TicketService.Mapper;
 using TicketService.Models;
+using WebApiContrib.Core.Formatter.Csv;
 
 namespace TicketService
 {
@@ -33,27 +40,30 @@ namespace TicketService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddViewLocalization();
-            /*services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/User/Login";
-                    options.AccessDeniedPath = "/User/Login";
-                    options.Cookie.Name = "AuthTicketService";
-                });*/
+            services.AddControllersWithViews()
+                .AddViewLocalization()
+                .AddXmlDataContractSerializerFormatters()
+                .AddCsvSerializerFormatters()
+                .AddMvcOptions(opt => opt.FormatterMappings.SetMediaTypeMappingForFormat("xml", new Microsoft.Net.Http.Headers.MediaTypeHeaderValue("application/xml")))
+                .AddJsonOptions(opt => opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
+                .AddRazorRuntimeCompilation();
+
+
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<ITicketsService, TicketsService>();
             services.AddScoped<IVenueService, VenueService>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IOrderService, OrderService>();
+            
             services.AddLocalization(options => {
                 options.ResourcesPath = "Resources";
             });
+            
             services.AddDbContext<TicketServiceContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("TicketServiceConnection"));
             });
-            //services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<TicketServiceContext>();
+
             services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<TicketServiceContext>();
             services.Configure<IdentityOptions>(options =>
             {
@@ -85,6 +95,14 @@ namespace TicketService
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });
+            
+            services.AddSwaggerGen(c => {
+                // добавляет в swaggerUI xml комментарии из кода контроллера
+                var file = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var path = Path.Combine(AppContext.BaseDirectory, file);
+                c.IncludeXmlComments(path);
+            });
+            services.AddAutoMapper(typeof(MappingProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,10 +134,16 @@ namespace TicketService
                 SupportedUICultures = supportedCultures
             });
 
+            app.UseSwagger();
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSwaggerUI(c => {
+                //Для перехода в url добавить /swagger 
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "TicketService");
+            });
 
             app.UseEndpoints(endpoints =>
             {
@@ -127,6 +151,7 @@ namespace TicketService
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Events}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
             
         }

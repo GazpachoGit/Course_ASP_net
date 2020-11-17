@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TicketService.DAL.Database;
@@ -44,6 +45,16 @@ namespace TicketService.Core
         {
             return await context.Cities.FindAsync(cityId);
             
+        }
+
+        public async Task<IEnumerable<City>> GetCities(string cityName)
+        {
+            var queriable = context.Cities.AsQueryable();
+            if (!string.IsNullOrEmpty(cityName))
+            {
+                queriable = queriable.Where(c => c.Name.Contains(cityName));
+            }
+            return await queriable.ToListAsync();
         }
     }
 }

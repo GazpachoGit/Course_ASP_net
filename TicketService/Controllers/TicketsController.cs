@@ -29,7 +29,7 @@ namespace TicketService.Controllers
             this.orderService = orderService;
         }
 
-        [Route("Events/{id}/Tickets")]
+        [HttpGet("Events/{id}/Tickets")]
         public async Task<IActionResult> Tickets(int id)
         {
             var Tickets = await ticketsService.GetTicketsAvailableByEventId(id);

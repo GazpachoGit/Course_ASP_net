@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/events.css">
+    <script src="/js/eventsApp.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="/views/htmlpage.html">JQuery Page</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+        </ul>
+      </nav>
+<div class="event-main">
+    <div class="event-size-panel">
+        <div class="event-filter-container">
+            <div class="form-group">
+                <div class="event-filter-item">
+                    <h5 class="title">Filters </h5>
+                </div>
+                <!--date-->
+                <div class="event-filter-item">
+                    <label for="eventDateFrom">Event date From:</label>
+                    <input type="date" class="form-control" id="dateEventFrom">
+                </div>
+                <div class="event-filter-item">
+                  <label for="eventDateTo">Event date To:</label>
+                  <input type="date" class="form-control" id="dateEventTo">
+              </div>
+                <!--city-->
+                <div>Set city</div>
+                <div class="event-filter-panel">
+                <div class="event-filter-item">
+                    <label for="cityEvent">Event cities:</label>                        
+                        <input class="form-control" placeholder="filter" id="cityEvent">
+                        <ul id="cityList" class="list-group">
+                        </ul>
+                        <label>Selected cities</label>
+                        <ul id="cityListSelected" class="list-group">
+                        </ul>                       
+                </div>
+                </div>
+                <!--venue-->
+                <div>Set venue</div>
+                <div class="event-filter-panel">
+                  <div class="event-filter-item">
+                    <label for="venueEvent">Event venues:</label>                       
+                        <input class="form-control" id="venueEvent" placeholder="filter" list="venueList">
+                        <ul id="venueList" class="list-group"></ul>
+                        <label>Selected venues:</label>
+                        <ul id="venueListSelected" class="list-group"></ul>        
+                  </div>               
+                </div>
+                
+                <div style="display: flex; justify-content: space-around;">
+                  <div class="event-filter-item">
+                    <button class="btn" style="background-color: #85adad;" id="searchEvent">Search</button>
+                  </div>
+                  <div class="event-filter-item">
+                    <button class="btn" style="background-color: #85adad;" id="clearEvent">Clear</button>
+                  </div>
+              </div>                
+            </div>
+        </div>
+    </div>
+    <div class="event-items-main">
+        <div class="event-view-control">
+          <!--name-->
+            <div style="flex: 0 0 40%"><input placeholder="Search event" class="form-control" id="searchBar" list="nameEvent">
+                <datalist id="nameEvent">
+                </datalist>
+              </div> 
+            <div>
+              <div class="btn-group">
+                <button type="button" id="sortBar"class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i id="sortIcon" class="fa fa-angle-down"></i>sortBy
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <button class="dropdown-item sortOpt" sortBy="Name" sortDir="Asc" type="button">Name Ascending</button>
+                  <button class="dropdown-item sortOpt" sortBy="Name" sortDir="Desc" type="button">Name Descending</button>
+                  <button class="dropdown-item sortOpt" sortBy="Date" sortDir="Asc" type="button">Date Ascending</button>
+                  <button class="dropdown-item sortOpt" sortBy="Date" sortDir="Desc" type="button">Date Descending</button>
+                  <button class="dropdown-item sortOpt" sortBy="Sort By" sortDir="Asc" type="button">Clear</button>
+                </div>
+              </div>
+            </div>                    
+        </div>
+        <div style="display: flex; flex-flow: column; justify-content:center; align-content:center">
+          <div style="display: flex; justify-content: center;">
+            <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link text-success" href="#">Previous</a></li>
+              <li class="page-item"><a class="page-link text-success" href="#">1</a></li>
+              <li class="page-item"><a class="page-link text-success" href="#">2</a></li>
+              <li class="page-item"><a class="page-link text-success" href="#">3</a></li>
+              <li class="page-item"><a class="page-link text-success" href="#">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+        <!--cart items-->
+          <div class="event-items-container"></div>
+          <div style="display: flex; justify-content: center;">
+            <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link text-success" href="#">Previous</a></li>
+              <li class="page-item"><a class="page-link text-success" href="#">1</a></li>
+              <li class="page-item"><a class="page-link text-success" href="#">2</a></li>
+              <li class="page-item"><a class="page-link text-success" href="#">3</a></li>
+              <li class="page-item"><a class="page-link text-success" href="#">Next</a></li>
+            </ul>
+          </nav>
+        </div>  
+        </div>
+             
+    </div>
+
+</div>
+</body>
+</html>

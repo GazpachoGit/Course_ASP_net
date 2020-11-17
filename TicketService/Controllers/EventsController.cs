@@ -42,7 +42,7 @@ namespace TicketService.Controllers
             return View(Events);
         }
 
-       [Route("Events/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Details(int id)
         {
 
@@ -66,9 +66,10 @@ namespace TicketService.Controllers
             return View(_event);
         }
         [Authorize(Roles = "Admin")]
+        [HttpPost]
         public async Task<IActionResult> EditEvent(Event _event)
         {
-            if (await eventService.CreateEventOk(_event))
+            if (await eventService.EventNotExist(_event))
             {
                 await eventService.EditEvent(_event);
                 return RedirectToAction("Index", "Events");
@@ -80,9 +81,10 @@ namespace TicketService.Controllers
             }
         }
         [Authorize(Roles = "Admin")]
+        [HttpPost]
         public async Task<IActionResult> CreateEvent(Event _event)
         {           
-            if(await eventService.CreateEventOk(_event))
+            if(await eventService.EventNotExist(_event))
             {
                 await eventService.CreateEvent(_event);
                 return RedirectToAction("Index", "Events");
@@ -93,6 +95,7 @@ namespace TicketService.Controllers
             }                       
         }
         [Authorize(Roles = "Admin")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             await eventService.DeleteEvent(id);

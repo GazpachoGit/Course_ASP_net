@@ -4,7 +4,14 @@
 @model List<TicketService.DAL.Models.Event>
 @{ ViewData["Title"] = "Events Page"; }
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0px">
+    <a class="navbar-brand">Alternative</a>
+    <div class="navbar-nav">        
+        <a class="nav-item nav-link" href="~/views/JEvents.html">Jquery</a>
+        <a class="nav-item nav-link" href="#">React</a>
 
+    </div>
+</nav>
 <h1>@Localizer["Title"]</h1>
 <div class="d-flex">
     @if (User.IsInRole("Admin"))

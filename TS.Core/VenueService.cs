@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicketService.Core.Queries;
 using TicketService.DAL.Database;
 using TicketService.DAL.Models;
 
@@ -53,6 +54,20 @@ namespace TicketService.Core
         {
             context.Venues.Remove(await context.Venues.FindAsync(venueId));
             await context.SaveChangesAsync();
+        }
+
+        public async Task<object> GetVenues(VenueQuery query)
+        {
+            var queriable = context.Venues.AsQueryable();
+            if (!string.IsNullOrEmpty(query.venueName))
+            {
+                queriable = queriable.Where(e => e.Name.Contains(query.venueName));
+            }
+            if (query.Cities?.Any() ?? false)
+            {
+                queriable = queriable.Where(v => query.Cities.Contains(v.CityId));
+            }
+            return await queriable.ToListAsync();
         }
     }
 }

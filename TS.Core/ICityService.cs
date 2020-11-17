@@ -13,6 +13,6 @@ namespace TicketService.Core
         Task<int> CreateCity(City city);
         Task<int> EditCity(City city);
         Task DeleteCity(int cityId);
-        
+        Task<IEnumerable<City>> GetCities(string cityName);
     }
 }

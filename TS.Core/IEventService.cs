@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TicketService.Core.Queries;
 using TicketService.DAL.Models;
 
 namespace TicketService.Core
@@ -14,8 +15,9 @@ namespace TicketService.Core
         Task<int> CreateEvent(Event _event);
         Task EditEvent(Event _event);
         Task DeleteEvent(int Id);
-        Task<bool> CreateEventOk(Event _event);
+        Task<bool> EventNotExist(Event _event);
         Task<bool> EventsExistByVenue(int venueId);
-
+        Task<IEnumerable<Event>> GetEvents(EventQuery eventQuery);
+        Task<IEnumerable<string>> GetEventNames(string eventName);
     }
 }
