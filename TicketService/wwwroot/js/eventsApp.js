@@ -136,6 +136,7 @@ function searchEvent(selectFirstPage) {
     if (selectFirstPage) {
         selectedPage = 1;
     }
+    console.log(filterEvent);
     $.ajax({
         url: `/api/v1/Event`,
         traditional: true,
@@ -189,8 +190,8 @@ function setPages(selectedPage, count, selectedPageSize) {
          const buttons = [];
          for (let i = 1; i <= pageCount; i++) {
              const button = $('<li>', { class: 'page-item' });
-             if (i === selectedPage) {
-                 button.append($('<a>').addClass("page-link text-success bg-laf").text(i));
+             if (i == selectedPage) {
+                 button.append($('<a>').addClass("page-link text-success border border-success").text(i));
             } else {
                 button.append($('<a>').addClass("page-link text-success").text(i));
              }
@@ -211,16 +212,12 @@ $(document).ready(function () {
     });
     $('#cityList').on('click', 'li', (e) => {
         selectedCities.push({value: e.target.value, text: e.target.textContent});
-        console.log(selectedCities);
-        console.log(filterEvent); 
-        console.log(filterVenue); 
-        $('#cityListSelected').append($('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action bg-success'));
+        $('#cityListSelected').append($('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action bg-laf'));
         $('#cityList').find(e.target).remove();
     });
 
     $('#cityListSelected').on('click', 'li', (e) => {
         selectedCities = selectedCities.filter(item => item.value != e.target.value);
-        console.log(selectedCities);
         $('#cityList').append($('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action'));
         $('#cityListSelected').find(e.target).remove();
     });
@@ -228,18 +225,19 @@ $(document).ready(function () {
     $('#cityListSelected').on('DOMSubtreeModified', (e) => {
         console.log(e);
         setVenue();
+        searchEvent(1);
     });
     $('#venueList').on('click', 'li', (e) => {
         selectedVenues.push({value: e.target.value, text: e.target.textContent});
-        console.log(selectedCities);
-        $('#venueListSelected').append($('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action bg-success'));
+        $('#venueListSelected').append($('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action bg-laf'));
         $('#venueList').find(e.target).remove();
+        searchEvent(1);
     });
     $('#venueListSelected').on('click', 'li', (e) => {
-        selectedVenues = selectedCities.filter(item => item.value != e.target.value);
-        console.log(selectedVenues);
+        selectedVenues = selectedVenues.filter(item => item.value != e.target.value);
         $('#venueList').append($('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action'));
         $('#venueListSelected').find(e.target).remove();
+        searchEvent(1);
     });
     $('#venueEvent').on('change', (e) => {
         filterVenue.venueName = e.target.value;
@@ -249,6 +247,7 @@ $(document).ready(function () {
     $('#dateEventFrom').on('change', (e) => {
         selectedDateFrom = e.target.value;
         console.log(selectedDateFrom);
+        searchEvent(1);
     });
     $('#dateEventTo').on('change', (e) => {
         if(selectedDateFrom && selectedDateFrom > e.target.value) {
@@ -258,6 +257,7 @@ $(document).ready(function () {
             selectedDateTo = e.target.value;
             console.log(selectedDateTo);
         }
+        searchEvent(1);
         
     });
     $('#searchEvent').on('click', () => {
@@ -278,13 +278,12 @@ $(document).ready(function () {
         selectedDateFrom = undefined;
         selectedDateTo = undefined;
 
-        searchEvent();  
+        searchEvent(1);  
     });
     $('#searchBar').on('change', (e) => {
         $( "#clearEvent" ).trigger( "click" );
         selectedName = e.target.value;
-        selectedPage = 1;
-        searchEvent();
+        searchEvent(1);
     })   
     $("#searchBar").keyup(function(e){
         if(e.keyCode != 8){ 
@@ -296,7 +295,6 @@ $(document).ready(function () {
     $('[class*=sortOpt]').on('click', (e) => {    
         selectedSortBy = e.target.attributes.sortBy.value;
         selectedSortOrder = e.target.attributes.sortDir.value;
-        console.log(selectedSortBy + ' '+ sortArrows[selectedSortOrder]);
         $('#sortBar').find('i').remove();
         $('#sortBar').text(selectedSortBy);
         $('#sortBar').append($('<i>').addClass(sortArrows[selectedSortOrder]));
