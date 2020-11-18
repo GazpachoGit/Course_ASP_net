@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Client\css\events.css" />
+    <Content Include="Client\css\site.css" />
+    <Content Include="Client\js\eventsApp.js" />
+    <Content Include="Client\js\site.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AngularJS.Bundled" Version="1.2.26" />
     <PackageReference Include="AngularJS.Core" Version="1.8.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
@@ -39,6 +46,11 @@
 
   <ItemGroup>
     <Folder Include="Models\TestData\" />
+    <Folder Include="wwwroot\Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\views\JEvents.html" />
   </ItemGroup>
 
   <ItemGroup>
