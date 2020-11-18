@@ -14,7 +14,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-﻿
+﻿;
 
 var filteredEvents = [];
 
@@ -256,12 +256,10 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
          }
       });
     //sort
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('[class*=sortOpt]').on('click', (e) => {    
-        selectedSortBy = e.target.attributes.sortBy.value;
-        selectedSortOrder = e.target.attributes.sortDir.value;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sortBar').find('i').remove();
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sortBar').text(selectedSortBy);
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sortBar').append(jquery__WEBPACK_IMPORTED_MODULE_0___default()('<i>').addClass(sortArrows[selectedSortOrder]));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.sortOpt').on('change', (e) => {
+        var sorting = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.sortOpt').find(':selected')[0];
+        selectedSortBy = sorting.attributes.sortby.value;
+        selectedSortOrder = sorting.attributes.sortdir.value;
         searchEvent();        
     })
     //pages

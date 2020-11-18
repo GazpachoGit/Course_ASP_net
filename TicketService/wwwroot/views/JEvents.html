@@ -77,26 +77,22 @@
                 </datalist>
             </div>
               
-          <div style="display: flex;">
-            <div class="mx-2">
-              <select class="custom-select page-size">
-                <option class= "page-size-item" selected value="2">on page...</option>
-                <option class= "page-size-item" value="2">2 on page</option>
-                <option class= "page-size-item" value="4">4 on page</option>
-                <option class= "page-size-item" value="10">10 on page</option>
-              </select>
-            </div> 
-            <div class="btn-group">
-                <button type="button" id="sortBar"class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i id="sortIcon" class="fa fa-angle-down"></i>sortBy
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <button class="dropdown-item sortOpt" sortBy="Name" sortDir="Asc" type="button">Name Ascending</button>
-                  <button class="dropdown-item sortOpt" sortBy="Name" sortDir="Desc" type="button">Name Descending</button>
-                  <button class="dropdown-item sortOpt" sortBy="Date" sortDir="Asc" type="button">Date Ascending</button>
-                  <button class="dropdown-item sortOpt" sortBy="Date" sortDir="Desc" type="button">Date Descending</button>
-                  <button class="dropdown-item sortOpt" sortBy="Sort By" sortDir="Asc" type="button">Clear</button>
+            <div style="display: flex;">
+                <div class="mx-2">
+                    <select class="custom-select page-size bg-laf">
+                        <option class="page-size-item" selected value="2">2 on page</option>
+                        <option class="page-size-item" value="4">4 on page</option>
+                        <option class="page-size-item" value="10">10 on page</option>
+                    </select>
                 </div>
-              </div>
+                <div class="mx-2">
+                    <select class="custom-select sortOpt bg-laf">
+                        <option  sortBy="Name" sortDir="Asc" selected>Name Asc</option>
+                        <option  sortBy="Name" sortDir="Desc">Name Desc</option>
+                        <option  sortBy="Date" sortDir="Asc">Date Asc</option>
+                        <option  sortBy="Date" sortDir="Desc">Date Desc</option>
+                    </select>
+                </div>
             </div>                    
         </div>
         <!--pagination-->

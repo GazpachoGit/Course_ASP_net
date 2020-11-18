@@ -1,4 +1,4 @@
-﻿import 'jquery';
+﻿import $ from 'jquery';
 
 var filteredEvents = [];
 
@@ -240,12 +240,10 @@ $(document).ready(function () {
          }
       });
     //sort
-    $('[class*=sortOpt]').on('click', (e) => {    
-        selectedSortBy = e.target.attributes.sortBy.value;
-        selectedSortOrder = e.target.attributes.sortDir.value;
-        $('#sortBar').find('i').remove();
-        $('#sortBar').text(selectedSortBy);
-        $('#sortBar').append($('<i>').addClass(sortArrows[selectedSortOrder]));
+    $('.sortOpt').on('change', (e) => {
+        var sorting = $('.sortOpt').find(':selected')[0];
+        selectedSortBy = sorting.attributes.sortby.value;
+        selectedSortOrder = sorting.attributes.sortdir.value;
         searchEvent();        
     })
     //pages

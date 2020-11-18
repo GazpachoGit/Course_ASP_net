@@ -64,16 +64,16 @@ Object.defineProperty(filterEvent, 'page', { get: () => { return  selectedPage;}
 Object.defineProperty(filterEvent, 'pageSize', { get: () => { return  selectedPageSize;} });
 
 function setCity(cityName) {
-    $('#cityList').find('li').remove();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityList').find('li').remove();
     filterCity.cityName = cityName;
-    $.ajax({
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
         url: `/api/v1/City`,
         traditional: true,
         data: filterCity,
         success: (data, status, xhr) => {
             data.forEach(element => {
                 if (!selectedCities.some(item => item.value == element.cityId)) {
-                    $('#cityList').append($('<li>').attr('value', element.cityId).text(element.name).addClass('list-group-item'));
+                    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityList').append(jquery__WEBPACK_IMPORTED_MODULE_0___default()('<li>').attr('value', element.cityId).text(element.name).addClass('list-group-item'));
                 }               
             });           
         }    
@@ -81,15 +81,15 @@ function setCity(cityName) {
 }
 
 function setVenue() {
-    $('#venueList').find('li').remove();    
-    $.ajax({
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#venueList').find('li').remove();    
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
         url: `/api/v1/Venue`,
         traditional: true,
         data: filterVenue,
         success: (data, status, xhr) => {
             data.forEach(element => {
                 if (!selectedVenues.some(item => item.value == element.id)) {
-                    $('#venueList').append($('<li>').attr('value', element.id).text(element.name).addClass('list-group-item'));
+                    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#venueList').append(jquery__WEBPACK_IMPORTED_MODULE_0___default()('<li>').attr('value', element.id).text(element.name).addClass('list-group-item'));
                 }              
             });           
         }    
@@ -101,7 +101,7 @@ function searchEvent(selectFirstPage) {
         selectedPage = 1;
     }
     console.log(filterEvent);
-    $.ajax({
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
         url: `/api/v1/Event`,
         traditional: true,
         data: filterEvent,
@@ -113,7 +113,7 @@ function searchEvent(selectFirstPage) {
     });    
 }
 function setEvents(data) {
-    $(".event-items-container").empty();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".event-items-container").empty();
     filteredEvents = [];
     if (data && data.length > 0) {
         data.forEach(event => {
@@ -130,21 +130,21 @@ function setEvents(data) {
                             </div>
                         </div>`;
 
-            $(".event-items-container").append(item);       
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(".event-items-container").append(item);       
         });
     } else {
-        $(".event-items-container").append('<h3>No data found</h3>');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(".event-items-container").append('<h3>No data found</h3>');
     }   
 }
 function setEventList(name) {   
-    $('#nameEvent').find('option').remove();
-    $.ajax({
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nameEvent').find('option').remove();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
         url: `/api/v1/Event/filterByName`,
         traditional: true,
         data: {eventName: name},
         success: (data, status, xhr) => {
             data.forEach(element => {
-                    $('#nameEvent').append($('<option>').attr('value', element).addClass('list-group-item'));                             
+                    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nameEvent').append(jquery__WEBPACK_IMPORTED_MODULE_0___default()('<option>').attr('value', element).addClass('list-group-item'));                             
             });           
         }
     })   
@@ -153,126 +153,124 @@ function setPages(selectedPage, count, selectedPageSize) {
     const pageCount = Math.ceil(count / selectedPageSize);
          const buttons = [];
          for (let i = 1; i <= pageCount; i++) {
-             const button = $('<li>', { class: 'page-item' });
+             const button = jquery__WEBPACK_IMPORTED_MODULE_0___default()('<li>', { class: 'page-item' });
              if (i == selectedPage) {
-                 button.append($('<a>').addClass("page-link text-success border border-success").text(i));
+                 button.append(jquery__WEBPACK_IMPORTED_MODULE_0___default()('<a>').addClass("page-link text-success border border-success").text(i));
             } else {
-                button.append($('<a>').addClass("page-link text-success").text(i));
+                button.append(jquery__WEBPACK_IMPORTED_MODULE_0___default()('<a>').addClass("page-link text-success").text(i));
              }
               buttons.push(button);
           }
-         $('.pageBar').empty().append(buttons);
+         jquery__WEBPACK_IMPORTED_MODULE_0___default()('.pageBar').empty().append(buttons);
 }
 
-$(document).ready(function () {
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     setCity();
     setVenue();
     searchEvent();
 
     //city
-    $('#cityEvent').on('change', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityEvent').on('change', (e) => {
         var cityName = e.target.value;
         setCity(cityName);
     });
-    $('#cityList').on('click', 'li', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityList').on('click', 'li', (e) => {
         selectedCities.push({value: e.target.value, text: e.target.textContent});
-        $('#cityListSelected').append($('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action bg-laf'));
-        $('#cityList').find(e.target).remove();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityListSelected').append(jquery__WEBPACK_IMPORTED_MODULE_0___default()('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action bg-laf'));
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityList').find(e.target).remove();
     });
 
-    $('#cityListSelected').on('click', 'li', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityListSelected').on('click', 'li', (e) => {
         selectedCities = selectedCities.filter(item => item.value != e.target.value);
-        $('#cityList').append($('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action'));
-        $('#cityListSelected').find(e.target).remove();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityList').append(jquery__WEBPACK_IMPORTED_MODULE_0___default()('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action'));
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityListSelected').find(e.target).remove();
     });
     //venue
-    $('#cityListSelected').on('DOMSubtreeModified', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityListSelected').on('DOMSubtreeModified', (e) => {
         console.log(e);
         setVenue();
         searchEvent(1);
     });
-    $('#venueList').on('click', 'li', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#venueList').on('click', 'li', (e) => {
         selectedVenues.push({value: e.target.value, text: e.target.textContent});
-        $('#venueListSelected').append($('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action bg-laf'));
-        $('#venueList').find(e.target).remove();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#venueListSelected').append(jquery__WEBPACK_IMPORTED_MODULE_0___default()('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action bg-laf'));
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#venueList').find(e.target).remove();
         searchEvent(1);
     });
-    $('#venueListSelected').on('click', 'li', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#venueListSelected').on('click', 'li', (e) => {
         selectedVenues = selectedVenues.filter(item => item.value != e.target.value);
-        $('#venueList').append($('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action'));
-        $('#venueListSelected').find(e.target).remove();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#venueList').append(jquery__WEBPACK_IMPORTED_MODULE_0___default()('<li>').attr('value', e.target.value).text(e.target.textContent).addClass('list-group-item list-group-item-action'));
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#venueListSelected').find(e.target).remove();
         searchEvent(1);
     });
-    $('#venueEvent').on('change', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#venueEvent').on('change', (e) => {
         filterVenue.venueName = e.target.value;
         setVenue();
     });
     //date
-    $('#dateEventFrom').on('change', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dateEventFrom').on('change', (e) => {
         selectedDateFrom = e.target.value;
         console.log(selectedDateFrom);
         searchEvent(1);
     });
-    $('#dateEventTo').on('change', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dateEventTo').on('change', (e) => {
         if(selectedDateFrom && selectedDateFrom > e.target.value) {
-            $('#dateEventTo').css('border-color', 'red');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dateEventTo').css('border-color', 'red');
         } else {
-            $('#dateEventTo').css('border-color', '');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dateEventTo').css('border-color', '');
             selectedDateTo = e.target.value;
             console.log(selectedDateTo);
         }
         searchEvent(1);
         
     });
-    $('#searchEvent').on('click', () => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#searchEvent').on('click', () => {
         searchEvent(1);
     });
-    $('#clearEvent').on('click', () => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#clearEvent').on('click', () => {
         //$('#searchBar').val('');
         //selectedName = null;
 
         selectedCities = [];
         selectedVenues = [];
-        $('#venueListSelected').find('li').remove();
-        $('#cityListSelected').find('li').remove();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#venueListSelected').find('li').remove();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cityListSelected').find('li').remove();
         setCity();
 
-        $('#dateEventTo').val('');
-        $('#dateEventFrom').val('');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dateEventTo').val('');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dateEventFrom').val('');
         selectedDateFrom = undefined;
         selectedDateTo = undefined;
 
         searchEvent(1);  
     });
-    $('#searchBar').on('change', (e) => {
-        $( "#clearEvent" ).trigger( "click" );
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#searchBar').on('change', (e) => {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()( "#clearEvent" ).trigger( "click" );
         selectedName = e.target.value;
         searchEvent(1);
     })   
-    $("#searchBar").keyup(function(e){
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#searchBar").keyup(function(e){
         if(e.keyCode != 8){ 
          var value = this.value;
          setEventList(value);
          }
       });
     //sort
-    $('[class*=sortOpt]').on('click', (e) => {    
-        selectedSortBy = e.target.attributes.sortBy.value;
-        selectedSortOrder = e.target.attributes.sortDir.value;
-        $('#sortBar').find('i').remove();
-        $('#sortBar').text(selectedSortBy);
-        $('#sortBar').append($('<i>').addClass(sortArrows[selectedSortOrder]));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.sortOpt').on('change', (e) => {
+        var sorting = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.sortOpt').find(':selected')[0];
+        selectedSortBy = sorting.attributes.sortby.value;
+        selectedSortOrder = sorting.attributes.sortdir.value;
         searchEvent();        
     })
     //pages
-    $('.pageBar').on('click','a', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.pageBar').on('click','a', (e) => {
         selectedPage = e.target.text;
         console.log(selectedPage);
         searchEvent();
     })
-    $('.page-size').on('change', (e) => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.page-size').on('change', (e) => {
         console.log(e);
-        selectedPageSize = $(this).find(':selected').val();
+        selectedPageSize = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find(':selected').val();
         searchEvent();
     });
     
