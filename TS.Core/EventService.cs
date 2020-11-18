@@ -72,7 +72,7 @@ namespace TicketService.Core
             return await context.Events.Where(e => e.VenueId == venueId).AnyAsync();                        
         }
 
-        public async Task<IEnumerable<Event>> GetEvents(EventQuery query)
+        public async Task<PagedResult<Event>> GetEvents(EventQuery query)
         {
             var queriable = context.Events.Include(e => e.Venue).ThenInclude(v => v.City).AsQueryable();       
 
@@ -111,7 +111,7 @@ namespace TicketService.Core
             {
                 queriable = queriable.Where(e => e.Date < query.DateTo);
             }
-
+            var count = await queriable.CountAsync();
 
             Expression<Func<Event, object>> sortExpression = query.SortBy switch
             {
@@ -129,7 +129,9 @@ namespace TicketService.Core
             if (query.Page <= 0) query.Page = 1;
             queriable = queriable.Skip(query.PageSize * (query.Page - 1)).Take(query.PageSize);
 
-            return await queriable.ToListAsync();
+           var items = await queriable.ToListAsync();
+
+            return new PagedResult<Event>() { count = count, items = items };
         }
 
         public async Task<IEnumerable<string>> GetEventNames(string eventName)

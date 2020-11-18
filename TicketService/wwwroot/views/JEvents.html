@@ -80,9 +80,18 @@
             <div style="flex: 0 0 40%"><input placeholder="Search event" class="form-control" id="searchBar" list="nameEvent">
                 <datalist id="nameEvent">
                 </datalist>
-              </div> 
-            <div>
-              <div class="btn-group">
+            </div>
+              
+          <div style="display: flex;">
+            <div class="mx-2">
+              <select class="custom-select page-size">
+                <option class= "page-size-item" selected value="2">on page...</option>
+                <option class= "page-size-item" value="2">2 on page</option>
+                <option class= "page-size-item" value="4">4 on page</option>
+                <option class= "page-size-item" value="10">10 on page</option>
+              </select>
+            </div> 
+            <div class="btn-group">
                 <button type="button" id="sortBar"class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i id="sortIcon" class="fa fa-angle-down"></i>sortBy
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -95,30 +104,24 @@
               </div>
             </div>                    
         </div>
+        <!--pagination-->
         <div style="display: flex; flex-flow: column; justify-content:center; align-content:center">
           <div style="display: flex; justify-content: center;">
             <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link text-success" href="#">Previous</a></li>
-              <li class="page-item"><a class="page-link text-success" href="#">1</a></li>
-              <li class="page-item"><a class="page-link text-success" href="#">2</a></li>
-              <li class="page-item"><a class="page-link text-success" href="#">3</a></li>
-              <li class="page-item"><a class="page-link text-success" href="#">Next</a></li>
+            <ul class="pagination pageBar">
             </ul>
           </nav>
         </div>
         <!--cart items-->
           <div class="event-items-container"></div>
-          <div style="display: flex; justify-content: center;">
-            <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link text-success" href="#">Previous</a></li>
-              <li class="page-item"><a class="page-link text-success" href="#">1</a></li>
-              <li class="page-item"><a class="page-link text-success" href="#">2</a></li>
-              <li class="page-item"><a class="page-link text-success" href="#">3</a></li>
-              <li class="page-item"><a class="page-link text-success" href="#">Next</a></li>
-            </ul>
-          </nav>
+          <!--pagination-->
+          <div style="display: flex; flex-flow: column; justify-content:center; align-content:center">
+            <div style="display: flex; justify-content: center;">
+              <nav aria-label="Page navigation example">
+              <ul class="pagination pageBar">
+              </ul>
+            </nav>
+          </div>
         </div>  
         </div>
              

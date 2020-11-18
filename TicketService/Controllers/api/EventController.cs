@@ -31,7 +31,10 @@ namespace TicketService.Controllers.api
         [Produces("application/json", "application/xml", "text/csv")]
         public async Task<IEnumerable<EventResource>> GetEvents([FromQuery] EventQuery query)
         {
-            return mapper.Map<IEnumerable<EventResource>>(await eventService.GetEvents(query));
+            var pagedResult = await eventService.GetEvents(query);
+            HttpContext.Response.Headers.Add("x-total-count", pagedResult.count.ToString());
+
+            return mapper.Map<IEnumerable<EventResource>>(pagedResult.items);
         }
 
         [HttpGet("filterByName")]

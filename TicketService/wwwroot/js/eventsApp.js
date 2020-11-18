@@ -61,6 +61,8 @@ var selectedDateTo;
 var selectedName;
 var selectedSortBy;
 var selectedSortOrder;
+var selectedPage = 1;
+var selectedPageSize = 2;
 
 var filterCity ={
     cityName: null,
@@ -76,7 +78,9 @@ var filterEvent = {
     cities: selectedCities.map(i  => i.value),
     venues: selectedVenues.map(i => i.value),
     sortBy: selectedSortBy,
-    sortOrder: selectedSortOrder
+    sortOrder: selectedSortOrder,
+    page: selectedPage,
+    pageSize: selectedPageSize
 };
 
 var sortArrows = {
@@ -92,6 +96,8 @@ Object.defineProperty(filterEvent, 'venues', { get: () => { return  selectedVenu
 Object.defineProperty(filterEvent, 'dateFrom', { get: () => { return  selectedDateFrom;} });
 Object.defineProperty(filterEvent, 'sortBy', { get: () => { return  selectedSortBy;} });
 Object.defineProperty(filterEvent, 'sortOrder', { get: () => { return  selectedSortOrder;} });
+Object.defineProperty(filterEvent, 'page', { get: () => { return  selectedPage;} });
+Object.defineProperty(filterEvent, 'pageSize', { get: () => { return  selectedPageSize;} });
 
 function setCity(cityName) {
     $('#cityList').find('li').remove();
@@ -101,7 +107,6 @@ function setCity(cityName) {
         traditional: true,
         data: filterCity,
         success: (data, status, xhr) => {
-
             data.forEach(element => {
                 if (!selectedCities.some(item => item.value == element.cityId)) {
                     $('#cityList').append($('<li>').attr('value', element.cityId).text(element.name).addClass('list-group-item'));
@@ -127,13 +132,18 @@ function setVenue() {
     });
 }
 
-function searchEvent() {
+function searchEvent(selectFirstPage) {
+    if (selectFirstPage) {
+        selectedPage = 1;
+    }
     $.ajax({
         url: `/api/v1/Event`,
         traditional: true,
         data: filterEvent,
         success: (data, status, xhr) => {
             setEvents(data);
+            const count = xhr.getResponseHeader('x-total-count');
+            setPages(selectedPage, count, selectedPageSize);
         }
     });    
 }
@@ -173,6 +183,20 @@ function setEventList(name) {
             });           
         }
     })   
+}
+function setPages(selectedPage, count, selectedPageSize) {
+    const pageCount = Math.ceil(count / selectedPageSize);
+         const buttons = [];
+         for (let i = 1; i <= pageCount; i++) {
+             const button = $('<li>', { class: 'page-item' });
+             if (i === selectedPage) {
+                 button.append($('<a>').addClass("page-link text-success bg-laf").text(i));
+            } else {
+                button.append($('<a>').addClass("page-link text-success").text(i));
+             }
+              buttons.push(button);
+          }
+         $('.pageBar').empty().append(buttons);
 }
 
 $(document).ready(function () {
@@ -237,7 +261,7 @@ $(document).ready(function () {
         
     });
     $('#searchEvent').on('click', () => {
-        searchEvent();
+        searchEvent(1);
     });
     $('#clearEvent').on('click', () => {
         //$('#searchBar').val('');
@@ -259,6 +283,7 @@ $(document).ready(function () {
     $('#searchBar').on('change', (e) => {
         $( "#clearEvent" ).trigger( "click" );
         selectedName = e.target.value;
+        selectedPage = 1;
         searchEvent();
     })   
     $("#searchBar").keyup(function(e){
@@ -277,6 +302,17 @@ $(document).ready(function () {
         $('#sortBar').append($('<i>').addClass(sortArrows[selectedSortOrder]));
         searchEvent();        
     })
+    //pages
+    $('.pageBar').on('click','a', (e) => {
+        selectedPage = e.target.text;
+        console.log(selectedPage);
+        searchEvent();
+    })
+    $('.page-size').on('change', (e) => {
+        console.log(e);
+        selectedPageSize = $(this).find(':selected').val();
+        searchEvent();
+    });
     
 });
 

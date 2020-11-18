@@ -17,7 +17,7 @@ namespace TicketService.Core
         Task DeleteEvent(int Id);
         Task<bool> EventNotExist(Event _event);
         Task<bool> EventsExistByVenue(int venueId);
-        Task<IEnumerable<Event>> GetEvents(EventQuery eventQuery);
+        Task<PagedResult<Event>> GetEvents(EventQuery eventQuery);
         Task<IEnumerable<string>> GetEventNames(string eventName);
     }
 }
