@@ -1,18 +1,21 @@
 import react, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
+import './grid-row.css'
 
 export default class GridRow extends Component {
 
     render() {
         const { id, ...itemData } = this.props;
-        const gridCol = Object.entries(itemData).map(([, value]) => { return <td>{value}</td> })
+        const gridCol = Object.entries(itemData).map(([, value]) => { return <div>{value}</div> })
         //itemData.map(([, value]) => { return <td>{value}</td> })
         return (
-            <tr key={id}>
-                {gridCol}
-                <td><Link to={`/Listings/${id}`} className="btn btn-success">123</Link></td>
-            </tr>
+            <li key={id} className="list-group-item">
+                <div className="store-list-item">
+                    {gridCol}
+                    <div className="btn-cell"><Link to={`/Listings/${id}`} className="btn btn-success">Details</Link></div>
+                </div>
+            </li>
         )
     }
 }

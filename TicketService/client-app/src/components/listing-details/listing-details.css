@@ -1,11 +1,4 @@
-.details-main {
-    display: flex;
-    width: 40%;
-    min-height: 100%;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-}
+.details-main {}
 
 .bg-laf {
     background-color: #94b8b8;

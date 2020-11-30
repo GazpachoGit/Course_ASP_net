@@ -1,0 +1,23 @@
+.btn-cell {
+    width: 50px;
+}
+
+.store-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: baseline;
+    padding: 0 15px 0 15px;
+}
+
+.list-group-item:hover {
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 3px;
+    border-color: #94b8b8;
+}
+
+.bg-laf {
+    background-color: #94b8b8;
+}
