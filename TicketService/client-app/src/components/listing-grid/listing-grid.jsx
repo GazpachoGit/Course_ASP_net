@@ -23,6 +23,7 @@ export default class ListingGrid extends Component {
                     <thead>
                         <tr>
                             {gridHeaders}
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

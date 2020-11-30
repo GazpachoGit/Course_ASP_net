@@ -1,5 +1,6 @@
 import react, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
 export default class GridRow extends Component {
 
@@ -10,6 +11,7 @@ export default class GridRow extends Component {
         return (
             <tr key={id}>
                 {gridCol}
+                <td><Link to={`/Listings/${id}`} className="btn btn-success">123</Link></td>
             </tr>
         )
     }

@@ -2,8 +2,11 @@
     display: flex;
     width: 40%;
     min-height: 100%;
-    background-color: blue;
     position: absolute;
     right: 0px;
     top: 0px;
+}
+
+.bg-laf {
+    background-color: #94b8b8;
 }
