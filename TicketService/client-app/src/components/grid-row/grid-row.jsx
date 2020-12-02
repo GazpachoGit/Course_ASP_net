@@ -13,7 +13,7 @@ export default class GridRow extends Component {
             <li key={id} className="list-group-item">
                 <div className="store-list-item">
                     {gridCol}
-                    <div className="btn-cell"><Link to={`/Listings/${id}`} className="btn btn-success">Details</Link></div>
+                    <div className="btn-cell"><Link to={`/Listings/${id}`} className="btn btn-dark">Details</Link></div>
                 </div>
             </li>
         )

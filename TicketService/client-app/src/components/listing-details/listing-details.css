@@ -1,5 +1,36 @@
-.details-main {}
+.details-container {
+    display: flex;
+    flex-flow: row, wrap;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+}
+
+.details-main {
+    padding: 20px;
+    max-width: auto;
+    height: 500px;
+}
+
+.description-text {
+    font-size: 20px;
+    font-style: oblique;
+}
+
+.table-row {
+    align-items: baseline;
+}
 
 .bg-laf {
     background-color: #94b8b8;
+}
+
+.add-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.add-button {
+    width: 40%
 }

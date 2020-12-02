@@ -2,9 +2,9 @@ import react, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-
 import Listing from '../listing'
 import ListingDetails from '../listing-details';
+import PopupDelete from '../popup-delete';
 
 export default class App extends Component {
 
@@ -23,15 +23,17 @@ export default class App extends Component {
                     </nav>
                     <div>
                         <Route path="/Listings" exact component={Listing} />
-                        <Route path="/Listings/:id" exact render={({ match }) => {
+                        <Route path="/Listings/:id" render={({ match }) => {
                             const { id } = match.params;
                             return <ListingDetails id={id} />
+                        }} />
+                        <Route path="/Listings/:id/tickets/:tId/delete" render={({ match }) => {
+                            const route = match.params;
+                            return <PopupDelete {...route} />
                         }} />
                     </div>
                 </Router>
             </div>
-
-
         )
     }
 }
