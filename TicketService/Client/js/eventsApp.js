@@ -109,7 +109,7 @@ function setEvents(data) {
                                 <p>${event.venue.name}<p>
                                 <p>${event.cityName}<p>
                                 <div class="d-flex justify-content-center">
-                                    <a href="#" class="btn btn-primary btn-block">Tickets</a>
+                                    <a href="/Events/${event.eventId}/Tickets" class="btn btn-primary btn-block">Tickets</a>
                                 </div>             
                             </div>
                         </div>`;

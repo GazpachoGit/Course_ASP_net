@@ -125,7 +125,7 @@ function setEvents(data) {
                                 <p>${event.venue.name}<p>
                                 <p>${event.cityName}<p>
                                 <div class="d-flex justify-content-center">
-                                    <a href="#" class="btn btn-primary btn-block">Tickets</a>
+                                    <a href="/Events/${event.eventId}/Tickets" class="btn btn-primary btn-block">Tickets</a>
                                 </div>             
                             </div>
                         </div>`;
@@ -327,7 +327,6 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: top-level-this-exports, __webpack_require__, __webpack_exports__, module */
-/*! CommonJS bailout: this is used directly at 23:2-6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -3581,8 +3580,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
   \*****************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: __webpack_exports__, top-level-this-exports, __webpack_require__ */
-/*! CommonJS bailout: this is used directly at 10:2-6 */
-/*! CommonJS bailout: exports is used directly at 7:73-80 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 /*!
@@ -8012,9 +8009,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
   \********************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, top-level-this-exports, __webpack_exports__ */
-/*! CommonJS bailout: this is used directly at 40:46-50 */
-/*! CommonJS bailout: module.exports is used directly at 18:43-57 */
-/*! CommonJS bailout: module.exports is used directly at 27:2-16 */
 /***/ (function(module, exports) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
