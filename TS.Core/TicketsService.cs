@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TicketService.DAL.Database;
 using TicketService.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using TicketService.Core.Queries;
 
 namespace TicketService.Core
 {
@@ -69,6 +70,24 @@ namespace TicketService.Core
         public async Task<Ticket> GetTicket(int ticketId)
         {
             return await context.Tickets.FindAsync(ticketId);
+        }
+
+        public async Task<IEnumerable<Ticket>> GetTickets(TicketQuery query)
+        {
+            var queriable = context.Tickets.Include(t => t.Event).ThenInclude(e => e.Venue).ThenInclude(v => v.City).AsQueryable();
+            if (query.ListingId != null)
+            {
+                queriable = queriable.Where(t => t.ListingId == query.ListingId);
+            }
+            if (!string.IsNullOrWhiteSpace(query.cityName))
+            {
+                queriable = queriable.Where(t => t.Event.Venue.City.Name == query.cityName);
+            }
+            if (!string.IsNullOrWhiteSpace(query.eventName))
+            {
+                queriable = queriable.Where(t => t.Event.Name == query.eventName);
+            }
+            return await queriable.ToListAsync();
         }
     }
 }

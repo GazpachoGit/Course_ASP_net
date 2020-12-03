@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using TicketService.Core.Queries;
 using TicketService.DAL.Models;
 
 namespace TicketService.Core
@@ -17,5 +18,6 @@ namespace TicketService.Core
         Task RejectTicket(int ticketId);
         Task<bool> TicketOrderExist(int ticketId);
         Task<Ticket> GetTicket(int ticketId);
+        Task<IEnumerable<Ticket>> GetTickets(TicketQuery query);
     }
 }

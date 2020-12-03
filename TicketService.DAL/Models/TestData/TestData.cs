@@ -86,8 +86,10 @@ namespace TicketService.DAL.Models.TestData
         }
         public async Task SeedDataAsync()
         {
-            await contex.Database.EnsureDeletedAsync();
+            #region DB options
+            //await contex.Database.EnsureDeletedAsync();
             await contex.Database.EnsureCreatedAsync();
+            #endregion
 
             if (await roleManager.FindByNameAsync("Admin") == null && await roleManager.FindByNameAsync("User") == null)
             {

@@ -16,8 +16,17 @@ namespace TicketService.Mapper
             CreateMap<Event, EventResource>()
                 .ForMember(x => x.Date, opt => opt.MapFrom(src => ((DateTime)src.Date).ToString("dd/MM/yyyy HH:mm")))
                 .ForMember(r => r.CityName, opt => opt.MapFrom(src => src.Venue.City.Name));
+
             CreateMap<Venue, VenueResource>();
-        //      .ForMember(er => er.Description, opt => opt.MapFrom(src => src.Description));
+            
+            CreateMap<Listing, ListingResource>();
+
+            CreateMap<Ticket, TicketResource>()
+                .ForMember(x => x.id, opt => opt.MapFrom(src => src.TicketId))
+                .ForMember(x => x.CityName, opt => opt.MapFrom(src => src.Event.Venue.City.Name))
+                .ForMember(x => x.Date, opt => opt.MapFrom(src => ((DateTime)src.Event.Date).ToString("dd/MM/yyyy HH:mm")))
+                .ForMember(x => x.EventName, opt => opt.MapFrom(src => src.Event.Name))
+                .ForMember(x => x.VenueName, opt => opt.MapFrom(src => src.Event.Venue.Name));
         }
     }
 }
