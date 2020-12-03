@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketService.DAL.Database;
 
 namespace TicketService.DAL.Migrations
 {
     [DbContext(typeof(TicketServiceContext))]
-    partial class TicketServiceContextModelSnapshot : ModelSnapshot
+    [Migration("20201203100817_withListing4")]
+    partial class withListing4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,6 +327,7 @@ namespace TicketService.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("ListingId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -460,7 +463,9 @@ namespace TicketService.DAL.Migrations
 
                     b.HasOne("TicketService.DAL.Models.Listing", "Listing")
                         .WithMany("ListingBody")
-                        .HasForeignKey("ListingId");
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Seller")
                         .WithMany()

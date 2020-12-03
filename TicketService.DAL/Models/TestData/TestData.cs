@@ -86,7 +86,7 @@ namespace TicketService.DAL.Models.TestData
         }
         public async Task SeedDataAsync()
         {
-            //await contex.Database.EnsureDeletedAsync();
+            await contex.Database.EnsureDeletedAsync();
             await contex.Database.EnsureCreatedAsync();
 
             if (await roleManager.FindByNameAsync("Admin") == null && await roleManager.FindByNameAsync("User") == null)
@@ -108,9 +108,9 @@ namespace TicketService.DAL.Models.TestData
             }
 
             var Cities = new List<City>
-                {
-                    new City {Name = "Москва"},
-                    new City {Name = "Волгоград"}
+                {                  
+                    new City {Name = "Волгоград"},
+                    new City {Name = "Москва"}
                 };
             var Venues = new List<Venue>
                 {
@@ -120,7 +120,6 @@ namespace TicketService.DAL.Models.TestData
                     new Venue { Name = "Каток пакр Горького", Address = "ул Горького", City = Cities[1]},
                     new Venue { Name = "аквапарк Карибия", Address = "ул Багратиона", City = Cities[1]},
                     new Venue { Name = "банный комплекс Ясенево", Address = "ул Медведково", City = Cities[1]},
-
                 };
             var Events = new List<Event>()
                 {
