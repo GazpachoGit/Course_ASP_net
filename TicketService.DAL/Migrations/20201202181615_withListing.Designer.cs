@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketService.DAL.Database;
 
 namespace TicketService.DAL.Migrations
 {
     [DbContext(typeof(TicketServiceContext))]
-    partial class TicketServiceContextModelSnapshot : ModelSnapshot
+    [Migration("20201202181615_withListing")]
+    partial class withListing
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,7 +267,7 @@ namespace TicketService.DAL.Migrations
 
             modelBuilder.Entity("TicketService.DAL.Models.Listing", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -279,7 +281,7 @@ namespace TicketService.DAL.Migrations
                     b.Property<string>("SellerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("SellerId");
 
@@ -458,7 +460,7 @@ namespace TicketService.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TicketService.DAL.Models.Listing", "Listing")
+                    b.HasOne("TicketService.DAL.Models.Listing", null)
                         .WithMany("ListingBody")
                         .HasForeignKey("ListingId")
                         .OnDelete(DeleteBehavior.Cascade)

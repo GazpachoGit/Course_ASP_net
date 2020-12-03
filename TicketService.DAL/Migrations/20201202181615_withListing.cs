@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TicketService.DAL.Migrations
 {
-    public partial class Identity : Migration
+    public partial class withListing : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -166,6 +166,27 @@ namespace TicketService.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Listings",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ListingName = table.Column<string>(nullable: true),
+                    ListingDesc = table.Column<string>(nullable: true),
+                    SellerId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Listings", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Listings_AspNetUsers_SellerId",
+                        column: x => x.SellerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Venues",
                 columns: table => new
                 {
@@ -218,7 +239,8 @@ namespace TicketService.DAL.Migrations
                     Status = table.Column<int>(nullable: false),
                     EventId = table.Column<int>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
-                    SellerId = table.Column<string>(nullable: true)
+                    SellerId = table.Column<string>(nullable: true),
+                    ListingId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,6 +250,12 @@ namespace TicketService.DAL.Migrations
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "EventId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Listings_ListingId",
+                        column: x => x.ListingId,
+                        principalTable: "Listings",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Tickets_AspNetUsers_SellerId",
@@ -310,6 +338,11 @@ namespace TicketService.DAL.Migrations
                 column: "VenueId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Listings_SellerId",
+                table: "Listings",
+                column: "SellerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_BuyerId",
                 table: "Orders",
                 column: "BuyerId");
@@ -323,6 +356,11 @@ namespace TicketService.DAL.Migrations
                 name: "IX_Tickets_EventId",
                 table: "Tickets",
                 column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_ListingId",
+                table: "Tickets",
+                column: "ListingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_SellerId",
@@ -365,10 +403,13 @@ namespace TicketService.DAL.Migrations
                 name: "Events");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Listings");
 
             migrationBuilder.DropTable(
                 name: "Venues");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Cities");

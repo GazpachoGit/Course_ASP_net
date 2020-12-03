@@ -15,5 +15,7 @@ namespace TicketService.DAL.Models
         public string SellerId { get; set; }
         public IdentityUser Seller { get; set; }
         public Event Event { get; set; }
+        public int ListingId { get; set; }
+        public Listing Listing { get; set; }
     }
 }
