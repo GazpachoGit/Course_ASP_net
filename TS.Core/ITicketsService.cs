@@ -19,5 +19,6 @@ namespace TicketService.Core
         Task<bool> TicketOrderExist(int ticketId);
         Task<Ticket> GetTicket(int ticketId);
         Task<IEnumerable<Ticket>> GetTickets(TicketQuery query);
+        Task DeleteTicket(int id);
     }
 }

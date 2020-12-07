@@ -33,5 +33,10 @@ namespace TicketService.Controllers.api
 
             return mapper.Map<IEnumerable<TicketResource>>(pagedResult);
         }
+        [HttpDelete]
+        public async Task DeleteTicket([FromQuery] int id)
+        {
+            await ticketsService.DeleteTicket(id);
+        }
     }
 }

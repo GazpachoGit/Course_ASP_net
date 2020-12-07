@@ -5,20 +5,28 @@ import './listing-details.css'
 
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
+import { getTickets } from '../../API/store.jsx'
 
 class ListingDetails extends Component {
+
+    componentDidMount() {
+        getTickets(this.props.id).then((res) => {
+            const data = res.data;
+            this.props.loadTickets(data);
+        });
+    }
     
     render() {
-          //<button className="btn" onClick={() => deleteTicket(id, item.id)}>
-        const {id, MyListingArr, deleteTicket} = this.props;
-        const selectedListing = MyListingArr.find(({id: itemId}) => itemId == id);
-        const {ListingBody} = selectedListing;      
+        //<button className="btn" onClick={() => deleteTicket(id, item.id)}>
+        const { id, ListingBody, MyListingArr } = this.props;
+       const selectedListing = MyListingArr.find(({id: itemId}) => itemId == id);
+        //const {ListingBody} = selectedListing;   */   
         const ticketData = ListingBody.map((item) => (
             <tr className="table-row">                
-            <td>{item.EventName}</td>
-            <td>{item.VenueName}</td>
-            <td>{item.Date}</td>
-            <td>{item.Price}</td>
+            <td>{item.eventName}</td>
+            <td>{item.venueName}</td>
+            <td>{item.date}</td>
+            <td>{item.price}</td>
             <td><Link className="btn btn-dark" to={`/Listings/${id}/tickets/${item.id}/delete`}><i className="fa fa-trash"></i></Link></td>
             </tr>))
         //<button onClick={() => deleteTicket(id, ticketId)}>delete</button> 
@@ -55,6 +63,7 @@ class ListingDetails extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        ListingBody: state.ListingBody,
         MyListingArr: state.MyListingArr
     };
 };

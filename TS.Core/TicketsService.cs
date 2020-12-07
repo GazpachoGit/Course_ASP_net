@@ -89,5 +89,12 @@ namespace TicketService.Core
             }
             return await queriable.ToListAsync();
         }
+
+        public async Task DeleteTicket(int id)
+        {
+            var ticket = await context.Tickets.SingleOrDefaultAsync(e => e.TicketId.Equals(id));
+            context.Tickets.Remove(ticket);
+            await context.SaveChangesAsync();
+        }
     }
 }
