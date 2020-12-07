@@ -42,7 +42,7 @@ namespace TicketService.Controllers
             return View(Events);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("/Events/{id}")]
         public async Task<IActionResult> Details(int id)
         {
 

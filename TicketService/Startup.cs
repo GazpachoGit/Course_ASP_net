@@ -11,10 +11,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -104,6 +106,8 @@ namespace TicketService
                 c.IncludeXmlComments(path);
             });
             services.AddAutoMapper(typeof(MappingProfile));
+
+            services.AddSpaStaticFiles(config => { config.RootPath = "/ClientApp/build"; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -154,7 +158,63 @@ namespace TicketService
                     pattern: "{controller=Events}/{action=Index}/{id?}");
                 endpoints.MapControllers();
             });
-            
+            const string spaPath = "/ClientApp";
+            if (env.IsDevelopment())
+                app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments(spaPath)
+                                   || ctx.Request.Path.StartsWithSegments("/sockjs-node"),
+                    client =>
+                    {
+                        client.UseSpa(spa =>
+                        {
+                            spa.Options.SourcePath = "ClientApp";
+                            spa.UseReactDevelopmentServer("start");
+                        });
+                    });
+            else
+                app.Map(new PathString(spaPath), client =>
+                {
+                    client.UseSpaStaticFiles(new StaticFileOptions
+                    {
+                        OnPrepareResponse = ctx =>
+                        {
+                            if (ctx.Context.Request.Path.StartsWithSegments($"{spaPath}/static"))
+                            {
+                                var headers = ctx.Context.Response.GetTypedHeaders();
+                                headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
+                                {
+                                    Public = true,
+                                    MaxAge = TimeSpan.FromDays(365)
+                                };
+                            }
+                            else
+                            {
+                                var headers = ctx.Context.Response.GetTypedHeaders();
+                                headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
+                                {
+                                    Public = true,
+                                    MaxAge = TimeSpan.FromDays(0)
+                                };
+                            }
+                        }
+                    });
+
+                    client.UseSpa(spa =>
+                    {
+                        spa.Options.SourcePath = "ClientApp";
+                        spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
+                        {
+                            OnPrepareResponse = ctx =>
+                            {
+                                var headers = ctx.Context.Response.GetTypedHeaders();
+                                headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
+                                {
+                                    Public = true,
+                                    MaxAge = TimeSpan.FromDays(0)
+                                };
+                            }
+                        };
+                    });
+                });
         }
     }
 }
