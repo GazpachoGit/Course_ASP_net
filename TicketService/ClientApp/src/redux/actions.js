@@ -2,10 +2,10 @@ import { APIgetListings } from '../API/store.jsx'
 
 export const getDetails = () => ({ type: 'getDetails' });
 
-export const deleteTicket = (listingId, ticketId) => (
+export const deleteTicket = (id) => (
 {
   type: 'deleteTicket',
-  payload: {listingId, ticketId}
+  payload: id
 })
 export const loadListings = (data) => (
     {

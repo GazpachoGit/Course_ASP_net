@@ -22,11 +22,9 @@ const initialState = {
 
         case 'deleteTicket':
             {
-                let otherListing = state.MyListingArr.filter(({id}) => id != action.payload.listingId);
-                let selectedListing = state.MyListingArr.find(({id}) => id == action.payload.listingId);
-                selectedListing.ListingBody = selectedListing.ListingBody.filter(({id}) => id != action.payload.ticketId);
+                
                 return {...state,
-                     MyListingArr: [selectedListing ,...otherListing]}
+                    ListingBody: state.ListingBody.filter(t => t.id != action.payload)}
             }
         case 'loadListings': {
                 return { ...state, MyListingArr: action.payload }
