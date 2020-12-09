@@ -5,7 +5,7 @@ const initialState = {
     isModalOpened: false
 }
 
-const ticketReduser = (state, action) => {
+const ticketReduser = (state = initialState, action) => {
     switch(action.type) {
         case OPEN_MODAL:
             return {...state, isModalOpened: !state.isModalOpened}
@@ -16,3 +16,5 @@ const ticketReduser = (state, action) => {
         return state;
     }
 }
+
+export default ticketReduser;

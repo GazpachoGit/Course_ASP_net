@@ -35,7 +35,7 @@ const PopupDelete = ({ id, tId, ListingBody, deleteTicket }) => {
 }
 const mapStateToProps = (state) => {
     return {
-        ListingBody: state.ListingBody
+        ListingBody: state.reducerOld.ListingBody
     };
 };
 const mapDispatchToProps = (dispatch) => {

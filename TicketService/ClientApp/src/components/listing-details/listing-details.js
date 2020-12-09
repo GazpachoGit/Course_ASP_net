@@ -4,7 +4,8 @@ import {Link} from 'react-router-dom';
 import './listing-details.css'
 
 import { connect } from 'react-redux';
-import * as actions from '../../redux/actions';
+import {loadTickets} from '../../redux/actions';
+import {openModal} from '../../redux/ticket/actions'
 import { getTickets } from '../../API/store.jsx'
 
 class ListingDetails extends Component {
@@ -17,8 +18,9 @@ class ListingDetails extends Component {
     }
     
     render() {
+        
         //<button className="btn" onClick={() => deleteTicket(id, item.id)}>
-        const { id, ListingBody, MyListingArr } = this.props;
+        const { id, ListingBody, MyListingArr, openModal } = this.props;
        const selectedListing = MyListingArr.find(({id: itemId}) => itemId == id);
         //const {ListingBody} = selectedListing;   */   
         const ticketData = ListingBody.map((item) => (
@@ -50,7 +52,7 @@ class ListingDetails extends Component {
                                 </tbody>
                             </table>    
                         <div className="add-container">
-                            <button className="btn btn-dark add-button">+ Add ticket</button>
+                            <button onClick={openModal} className="btn btn-dark add-button">+ Add ticket</button>
                         </div>                                                 
                     </div>                        
                 </div>
@@ -63,9 +65,9 @@ class ListingDetails extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        ListingBody: state.ListingBody,
-        MyListingArr: state.MyListingArr
+        ListingBody: state.reducerOld.ListingBody,
+        MyListingArr: state.reducerOld.MyListingArr
     };
 };
 
-export default connect(mapStateToProps, actions)(ListingDetails);
+export default connect(mapStateToProps, {openModal, loadTickets})(ListingDetails);

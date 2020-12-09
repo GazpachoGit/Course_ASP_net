@@ -1,6 +1,11 @@
 import reducer from './reducer';
-import { createStore } from 'redux';
+import ticketReduser from './ticket/'
+import { createStore, combineReducers } from 'redux';
 
-const store = createStore(reducer);
+const commonReducer = combineReducers({
+    reducerOld: reducer,
+    ticket: ticketReduser
+})
+const store = createStore(commonReducer);
 
 export default store;

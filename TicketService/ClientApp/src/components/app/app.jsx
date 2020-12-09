@@ -1,7 +1,7 @@
 import react, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
+import CreateTicketModal from '../create-ticket-modal/'
 import Listing from '../listing'
 import ListingDetails from '../listing-details';
 import PopupDelete from '../popup-delete';
@@ -33,6 +33,9 @@ export default class App extends Component {
                         }} />
                     </div>
                 </Router>
+                <div className="modal">
+                    <CreateTicketModal/>
+                </div>
             </div>
         )
     }

@@ -33,7 +33,7 @@ class Listing extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        MyListingArr: state.MyListingArr
+        MyListingArr: state.reducerOld.MyListingArr
     };
 };
 
