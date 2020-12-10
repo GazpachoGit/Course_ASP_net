@@ -20,7 +20,7 @@ class ListingDetails extends Component {
     render() {
         
         //<button className="btn" onClick={() => deleteTicket(id, item.id)}>
-        const { id, ListingBody, MyListingArr, openModal } = this.props;
+       const { id, ListingBody, MyListingArr, openModal } = this.props;
        const selectedListing = MyListingArr.find(({id: itemId}) => itemId == id);
         //const {ListingBody} = selectedListing;   */   
         const ticketData = ListingBody.map((item) => (

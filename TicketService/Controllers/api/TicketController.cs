@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using TicketService.Controllers.api.Models;
 using TicketService.Core;
 using TicketService.Core.Queries;
+using TicketService.DAL.Models;
 
 namespace TicketService.Controllers.api
 {
@@ -39,5 +40,12 @@ namespace TicketService.Controllers.api
             await ticketsService.DeleteTicket(id);
             return id;
         }
+        [HttpPost]
+        public async Task<TicketResource> CreateTicket(Ticket ticket)
+        {
+            var id = await ticketsService.CreateTicket(ticket);
+            var newTicket = await ticketsService.GetTicket(id);
+            return mapper.Map<TicketResource>(newTicket);
+        } 
     }
 }

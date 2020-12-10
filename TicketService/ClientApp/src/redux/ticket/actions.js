@@ -7,3 +7,8 @@ export const openModal =  () => ({
 export const closeModal = () => ({
     type: CLOSE_MODAL
 })
+
+// export const addTicket = (ticket) => ({
+//     type: ADD_TICKET,
+//     payload: ticket
+// })

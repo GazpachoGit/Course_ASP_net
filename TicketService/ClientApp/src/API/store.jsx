@@ -23,3 +23,7 @@ export const removeTicket = async (id) => {
     const resp = await instance.delete('Ticket', { params: { id: id } })
     return resp;
 }
+export const createTicket = async (ticket) => {
+    const resp = await instance.post('Ticket', ticket);
+    return resp;
+}
