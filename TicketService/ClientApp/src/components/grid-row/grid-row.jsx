@@ -2,6 +2,7 @@ import react, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import './grid-row.css'
+import { connect } from 'react-redux';
 
 export default class GridRow extends Component {
 

@@ -27,14 +27,11 @@ export default class App extends Component {
                             const { id } = match.params;
                             return <ListingDetails id={id} />
                         }} />
-                        <Route path="/Listings/:id/tickets/:tId/delete" render={({ match }) => {
-                            const route = match.params;
-                            return <PopupDelete {...route} />
-                        }} />
                     </div>
                 </Router>
                 <div className="modal">
                     <CreateTicketModal/>
+                    <PopupDelete/>
                 </div>
             </div>
         )

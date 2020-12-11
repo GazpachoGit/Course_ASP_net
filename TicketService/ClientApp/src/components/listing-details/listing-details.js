@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import {loadTickets} from '../../redux/actions';
 import {openModal} from '../../redux/ticket/actions'
 import { getTickets } from '../../API/store.jsx'
+import {openDelModal} from '../../redux/ticket/actions'
 
 class ListingDetails extends Component {
 
@@ -19,19 +20,16 @@ class ListingDetails extends Component {
     
     render() {
         
-        //<button className="btn" onClick={() => deleteTicket(id, item.id)}>
-       const { id, ListingBody, MyListingArr, openModal } = this.props;
+       const { id, ListingBody, MyListingArr, openModal, openDelModal } = this.props;
        const selectedListing = MyListingArr.find(({id: itemId}) => itemId == id);
-        //const {ListingBody} = selectedListing;   */   
         const ticketData = ListingBody.map((item) => (
             <tr className="table-row">                
             <td>{item.eventName}</td>
             <td>{item.venueName}</td>
             <td>{item.date}</td>
             <td>{item.price}</td>
-            <td><Link className="btn btn-dark" to={`/Listings/${id}/tickets/${item.id}/delete`}><i className="fa fa-trash"></i></Link></td>
+            <td><button className="btn btn-dark"><i className="fa fa-trash" onClick={() => openDelModal(id, item.id)}></i></button></td>
             </tr>))
-        //<button onClick={() => deleteTicket(id, ticketId)}>delete</button> 
         return(
             <div className="details-container">
                 <div className="details-main">
@@ -66,8 +64,8 @@ class ListingDetails extends Component {
 const mapStateToProps = (state) => {
     return {
         ListingBody: state.reducerOld.ListingBody,
-        MyListingArr: state.reducerOld.MyListingArr
+        MyListingArr: state.reducerOld.MyListingArr,
     };
 };
 
-export default connect(mapStateToProps, {openModal, loadTickets})(ListingDetails);
+export default connect(mapStateToProps, {openModal, loadTickets, openDelModal})(ListingDetails);
