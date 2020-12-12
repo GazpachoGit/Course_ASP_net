@@ -7,6 +7,8 @@ using TicketService.DAL.Database;
 using TicketService.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using TicketService.Core.Queries;
+using Microsoft.AspNetCore.Identity;
+using User = System.Security.Claims.ClaimsPrincipal;
 
 namespace TicketService.Core
 {
@@ -18,9 +20,9 @@ namespace TicketService.Core
             this.context = context;
         }
         public async Task<IEnumerable<Ticket>> GetTicketsByEventId(int eventId)
-        {
-            
+        {           
             return await context.Tickets.Where(t => t.Event.EventId == eventId).Include(t => t.Event).Include(t => t.Seller).ToListAsync();
+            
        }
         public async Task<int> CreateTicket(Ticket ticket)
         {
@@ -69,7 +71,7 @@ namespace TicketService.Core
 
         public async Task<Ticket> GetTicket(int ticketId)
         {
-            return await context.Tickets.FindAsync(ticketId);
+            return await context.Tickets.Include(t => t.Event).ThenInclude(e => e.Venue).ThenInclude(v => v.City).SingleOrDefaultAsync(t => t.TicketId == ticketId);
         }
 
         public async Task<IEnumerable<Ticket>> GetTickets(TicketQuery query)
@@ -96,6 +98,25 @@ namespace TicketService.Core
             context.Tickets.Remove(ticket);
             await context.SaveChangesAsync();
             return id;
+        }
+
+        public async Task<int> PutTicket(Ticket ticket)
+        {
+            var user = User.Current;
+            if (user != null)
+            {
+                
+                ticket.SellerId = context.Users.FirstOrDefaultAsync(u => u.UserName == System.Security.Claims.ClaimsPrincipal.Current.Identity.Name).Id.ToString();
+            }
+            else
+            {
+                ticket.SellerId = await context.Users.FirstOrDefaultAsync(u => u.UserName == "Admin")
+                    .ContinueWith(item => item.Result.Id.ToString());
+            }
+
+            await context.Tickets.AddAsync(ticket); 
+            await context.SaveChangesAsync();
+            return ticket.TicketId;
         }
     }
 }

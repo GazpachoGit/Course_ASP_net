@@ -41,11 +41,13 @@ namespace TicketService.Controllers.api
             return id;
         }
         [HttpPost]
-        public async Task<TicketResource> CreateTicket(Ticket ticket)
+        public async Task<ActionResult<TicketResource>> CreateTicket(TicketResourceCreate ticketData)
         {
-            var id = await ticketsService.CreateTicket(ticket);
-            var newTicket = await ticketsService.GetTicket(id);
-            return mapper.Map<TicketResource>(newTicket);
+            var ticket = mapper.Map<Ticket>(ticketData);
+            var newTicketId = await ticketsService.PutTicket(ticket);
+            var newTicket = await ticketsService.GetTicket(newTicketId);
+            var resp = mapper.Map<TicketResource>(newTicket);
+            return CreatedAtAction("CreateTicket", new { newTicket.TicketId }, resp);
         } 
     }
 }

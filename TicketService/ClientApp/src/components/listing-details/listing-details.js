@@ -1,26 +1,27 @@
 import react, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {Link} from 'react-router-dom';
 import './listing-details.css'
+import Preloader from '../preloader/'
 
 import { connect } from 'react-redux';
 import {loadTickets} from '../../redux/actions';
-import {openModal} from '../../redux/ticket/actions'
-import { getTickets } from '../../API/store.jsx'
-import {openDelModal} from '../../redux/ticket/actions'
+import { getTickets, } from '../../API/store.jsx'
+import * as actions from '../../redux/ticket/actions'
 
 class ListingDetails extends Component {
 
     componentDidMount() {
-        getTickets(this.props.id).then((res) => {
-            const data = res.data;
-            this.props.loadTickets(data);
-        });
+        this.props.loadingTickets();
+         getTickets(this.props.id).then((res) => {
+             const data = res.data;
+             this.props.loadTickets(data);
+             this.props.loadedTickets();
+         });
     }
     
     render() {
         
-       const { id, ListingBody, MyListingArr, openModal, openDelModal } = this.props;
+       const { id, ListingBody, MyListingArr, openModal, openDelModal, isticketsLoading } = this.props;
        const selectedListing = MyListingArr.find(({id: itemId}) => itemId == id);
         const ticketData = ListingBody.map((item) => (
             <tr className="table-row">                
@@ -32,7 +33,8 @@ class ListingDetails extends Component {
             </tr>))
         return(
             <div className="details-container">
-                <div className="details-main">
+                {isticketsLoading ? <Preloader/> : 
+                    <div className="details-main">
                     <h1>Details of listing: {selectedListing.ListingName}</h1>
                     <h3>Description: <span className="description-text">{selectedListing.ListingDesc}</span></h3>
                     <div>
@@ -54,6 +56,8 @@ class ListingDetails extends Component {
                         </div>                                                 
                     </div>                        
                 </div>
+                }
+                
             </div>
         
         
@@ -65,7 +69,8 @@ const mapStateToProps = (state) => {
     return {
         ListingBody: state.reducerOld.ListingBody,
         MyListingArr: state.reducerOld.MyListingArr,
+        isticketsLoading: state.ticket.isticketsLoading
     };
 };
 
-export default connect(mapStateToProps, {openModal, loadTickets, openDelModal})(ListingDetails);
+export default connect(mapStateToProps, { loadTickets, ...actions})(ListingDetails);

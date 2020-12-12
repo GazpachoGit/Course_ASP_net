@@ -17,6 +17,12 @@ export const loadTickets = (data) => (
         type: 'loadTickets',
         payload: data
     })
+export const loadingListings = () => ({
+    type: 'listingLoading'
+})
+export const loadedListings = () => ({
+    type: 'listingLoaded'
+})
 
 
 

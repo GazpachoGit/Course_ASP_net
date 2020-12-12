@@ -20,5 +20,6 @@ namespace TicketService.Core
         Task<Ticket> GetTicket(int ticketId);
         Task<IEnumerable<Ticket>> GetTickets(TicketQuery query);
         Task<int> DeleteTicket(int id);
+        Task<int> PutTicket(Ticket ticket);
     }
 }

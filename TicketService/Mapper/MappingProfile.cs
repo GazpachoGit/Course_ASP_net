@@ -12,7 +12,8 @@ namespace TicketService.Mapper
 
     {
         public MappingProfile()
-        {
+        {            
+
             CreateMap<Event, EventResource>()
                 .ForMember(x => x.Date, opt => opt.MapFrom(src => ((DateTime)src.Date).ToString("dd/MM/yyyy HH:mm")))
                 .ForMember(r => r.CityName, opt => opt.MapFrom(src => src.Venue.City.Name));
@@ -27,6 +28,8 @@ namespace TicketService.Mapper
                 .ForMember(x => x.Date, opt => opt.MapFrom(src => ((DateTime)src.Event.Date).ToString("dd/MM/yyyy HH:mm")))
                 .ForMember(x => x.EventName, opt => opt.MapFrom(src => src.Event.Name))
                 .ForMember(x => x.VenueName, opt => opt.MapFrom(src => src.Event.Venue.Name));
+            CreateMap<TicketResourceCreate, Ticket>()
+                .ForMember(res => res.Status, opt => opt.MapFrom(_ => TicketStatus.Selling));                
         }
     }
 }

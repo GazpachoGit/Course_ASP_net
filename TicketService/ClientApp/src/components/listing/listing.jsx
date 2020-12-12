@@ -8,24 +8,31 @@ import ListingDetails from '../listing-details'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import { getListings } from '../../API/store.jsx'
+import Preloader from '../preloader/'
 
+import './listing.css'
 
 
 class Listing extends Component {
 
     componentDidMount() {
+        this.props.loadingListings();
         getListings().then((res) => {
             const data = res.data;
             this.props.loadListings(data);
+            this.props.loadedListings();
         });
     }
 
     render() {
-        const { MyListingArr } = this.props;
+        const { MyListingArr, isListingLoading } = this.props;
         return (
-            <div>
+            <div >
                 <h2>My Listings</h2>
-                <ListingGrid gridData={MyListingArr} displayProp={['id', 'listingName']} />
+                <div className="center">
+                    {isListingLoading ? <Preloader /> :
+                        <ListingGrid gridData={MyListingArr} displayProp={['id', 'listingName']} />}
+                </div>
             </div>
         );
     }
@@ -33,7 +40,8 @@ class Listing extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        MyListingArr: state.reducerOld.MyListingArr
+        MyListingArr: state.reducerOld.MyListingArr,
+        isListingLoading: state.reducerOld.isListingLoading
     };
 };
 
