@@ -1,3 +1,7 @@
 .create-form {
     margin-top: 50px;
 }
+
+.validate-text {
+    color: red;
+}
