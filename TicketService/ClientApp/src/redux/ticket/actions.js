@@ -6,7 +6,8 @@ import {OPEN_MODAL,
         GET_VENUELIST,
         GET_CITYLIST,
         TICKETS_LOADED,
-        TICKETS_LOADING} from './index'
+        TICKETS_LOADING,} from './index'
+import {openErrorModal} from '../custom-error/actions'
 import {createTicket} from '../../API/store';
 
 export const openModal =  () => ({
@@ -42,10 +43,15 @@ export const loadedTickets = () => ({
     type: TICKETS_LOADED
 });
 
+
  export const addTicket = (ticket) => {
      return async (dispatch) => {
-        await createTicket(ticket)
-        dispatch(CLOSE_MODAL)          
+         try {
+            await createTicket(ticket)
+            .then(dispatch(closeModal()))
+         } catch(err) {
+            dispatch(openErrorModal(err))
+         }                
  }
 }  
  

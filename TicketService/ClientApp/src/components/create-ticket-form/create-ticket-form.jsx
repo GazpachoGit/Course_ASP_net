@@ -55,7 +55,7 @@ class CreateTicketForm extends Component {
             </div>
 
         const submit = async (val) => {
-            const ticket = { price: Number(val.price), eventId: val.event.eventId, listingId: ListingBody[0].listingId };
+            const ticket = { price: val.price, eventId: val.event.eventId, listingId: ListingBody[0].listingId };
             console.log(ticket);
             addTicket(ticket);
             // await createTicket({ price: Number(val.price), eventId: val.event.eventId, listingId: ListingBody[0].listingId });

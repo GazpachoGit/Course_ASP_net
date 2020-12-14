@@ -44,5 +44,6 @@ namespace TicketService.Controllers.api
         {
             return await eventService.GetEventNames(eventName);
         }
+
     }
 }

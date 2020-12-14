@@ -6,7 +6,7 @@ export const GET_EVENTLIST = 'createTicket/GET_EVENTLIST';
 export const GET_VENUELIST = 'createTicket/GET_VENUELIST';
 export const GET_CITYLIST = 'createTicket/GET_CITYLIST';
 export const TICKETS_LOADING = 'ticketList/TICKETS_LOADING';
-export const TICKETS_LOADED = 'ticketList/TICKETS_LOADED'
+export const TICKETS_LOADED = 'ticketList/TICKETS_LOADED';
 
 const initialState = {
     isModalOpened: false,
@@ -38,7 +38,8 @@ const ticketReduser = (state = initialState, action) => {
         case TICKETS_LOADING:
             return {...state, isticketsLoading: true}
         case TICKETS_LOADED:
-            return {...state, isticketsLoading: false}          
+            return {...state, isticketsLoading: false}
+             
         default: 
             return state;
     }

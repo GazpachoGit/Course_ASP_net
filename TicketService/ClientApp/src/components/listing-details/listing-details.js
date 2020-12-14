@@ -37,7 +37,7 @@ class ListingDetails extends Component {
                     <div className="details-main">
                     <h1>Details of listing: {selectedListing.ListingName}</h1>
                     <h3>Description: <span className="description-text">{selectedListing.ListingDesc}</span></h3>
-                    <div>
+                    <div >
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -52,7 +52,7 @@ class ListingDetails extends Component {
                                 </tbody>
                             </table>    
                         <div className="add-container">
-                            <button onClick={openModal} className="btn btn-dark add-button">+ Add ticket</button>
+                            <button style={{marginBottom: '30px'}} onClick={openModal} className="btn btn-dark add-button">+ Add ticket</button>
                         </div>                                                 
                     </div>                        
                 </div>

@@ -5,6 +5,7 @@ import CreateTicketModal from '../create-ticket-modal/'
 import Listing from '../listing'
 import ListingDetails from '../listing-details';
 import PopupDelete from '../popup-delete';
+import ErrorModal from '../error-modal/error-modal'
 
 export default class App extends Component {
 
@@ -30,8 +31,9 @@ export default class App extends Component {
                     </div>
                 </Router>
                 <div className="modal">
-                    <CreateTicketModal/>
-                    <PopupDelete/>
+                    <CreateTicketModal />
+                    <PopupDelete />
+                    <ErrorModal />
                 </div>
             </div>
         )
