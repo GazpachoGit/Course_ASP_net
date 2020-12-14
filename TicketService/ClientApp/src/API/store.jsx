@@ -35,7 +35,7 @@ export const getCities = async () => {
     const resp = await instance.get('City');
     return resp;
 }
-// export const createTicket = async (ticket) => {
-//     const resp = await instance.post('Ticket', ticket);
-//     return resp;
-// }
+export const createTicket = async (ticket) => {
+    const resp = await instance.post('Ticket', ticket);
+    return resp;
+}

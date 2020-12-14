@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
-import { getEvents, getCities, getVenues } from '../../API/store';
-import { loadEventList, loadCityList, loadVenueList } from '../../redux/ticket/actions';
+import { getEvents, getCities, getVenues, createTicket } from '../../API/store';
+import { loadEventList, loadCityList, loadVenueList, closeModal } from '../../redux/ticket/actions';
 
 import './create-ticket-form.css';
 import 'react-widgets/dist/css/react-widgets.css'
@@ -25,7 +25,8 @@ class CreateTicketForm extends Component {
             })
     }
     render() {
-        const { handleSubmit, reset, eventList, cityList, venueList, ListingBody } = this.props;
+        const { handleSubmit, reset, eventList, cityList, venueList, ListingBody, closeModal } = this.props;
+
         const loadVenues = (val) => {
             getVenues({ Cities: [val] })
                 .then(({ data }) => {
@@ -38,15 +39,23 @@ class CreateTicketForm extends Component {
                     this.props.loadEventList(data);
                 })
         }
-        const renderDropdownList = ({ input, data, valueField, textField }) =>
-            <DropdownList {...input}
-                data={data}
-                valueField={valueField}
-                textField={textField}
-                onChange={input.onChange} />
 
-        const submit = (val) => {
-            console.log({ ...val, listingId: ListingBody[0].listingId })
+        const renderDropdownList = ({ input, data, valueField, textField, meta: { touched, error, warning } }) =>
+            <div>
+                <DropdownList {...input}
+                    data={data}
+                    valueField={valueField}
+                    textField={textField}
+                    onChange={input.onChange} />
+                <div className="validate-text">
+                    {error}
+                </div>
+            </div>
+
+        const submit = async (val) => {
+            console.log({ ...val, listingId: ListingBody[0].listingId });
+            await createTicket({ price: Number(val.price), eventId: val.event.eventId, listingId: ListingBody[0].listingId });
+            this.props.closeModal();
         };
         return (
             <form onSubmit={handleSubmit(submit)}>
@@ -76,6 +85,12 @@ class CreateTicketForm extends Component {
 
 }
 
+const validate = (val) => {
+    const errors = {}
+    errors.event = val.event ? undefined : 'requered event';
+    errors.price = val.price ? undefined : 'requered price';
+    return errors;
+};
 
 const mapStateToProps = state => ({
     ListingBody: state.reducerOld.ListingBody,
@@ -85,7 +100,7 @@ const mapStateToProps = state => ({
 })
 
 CreateTicketForm = connect(
-    mapStateToProps, { loadEventList, loadCityList, loadVenueList }
+    mapStateToProps, { loadEventList, loadCityList, loadVenueList, closeModal }
 )(CreateTicketForm);
 
-export default reduxForm({ form: "create_ticket" })(CreateTicketForm);
+export default reduxForm({ form: "create_ticket", validate })(CreateTicketForm);

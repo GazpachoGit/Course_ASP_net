@@ -7,6 +7,7 @@ import {OPEN_MODAL,
         GET_CITYLIST,
         TICKETS_LOADED,
         TICKETS_LOADING} from './index'
+import {createTicket} from '../../API/store';
 
 export const openModal =  () => ({
     type: OPEN_MODAL
@@ -41,7 +42,9 @@ export const loadedTickets = () => ({
     type: TICKETS_LOADED
 });
 
-// export const addTicket = (ticket) => ({
-//     type: ADD_TICKET,
-//     payload: ticket
-// })
+ export const addTicket = (ticket) => {
+     return async (dispatch) => {
+        await createTicket(ticket)
+        dispatch(CLOSE_MODAL)
+     }   
+ }
