@@ -11,7 +11,7 @@
         @if (User.Identity.IsAuthenticated)
         {
             <div class="row">
-                <a class="btn btn-primary m-2" asp-area="" asp-controller="Tickets" asp-action="CreateView" asp-route-eventId="@Model.FirstOrDefault().EventId">+</a>
+                <a class="btn btn-primary m-2" asp-area="" asp-controller="Tickets" asp-action="CreateView" asp-route-eventId="@ViewBag.EventId">+</a>
             </div>
         }
         <table class="table table-responsive table-striped">

@@ -1,4 +1,4 @@
-import reducer from './reducer';
+import listingReducer from './listing/reducer';
 import ticketReduser from './ticket/'
 import errorReduser from './custom-error'
 import { createStore, combineReducers, applyMiddleware } from 'redux';
@@ -6,7 +6,7 @@ import {reducer as reducerForm} from 'redux-form';
 import thunk from 'redux-thunk';
 
 const commonReducer = combineReducers({
-    reducerOld: reducer,
+    listing: listingReducer,
     ticket: ticketReduser,
     customErr: errorReduser,
     form: reducerForm

@@ -4,19 +4,14 @@ import './listing-details.css'
 import Preloader from '../preloader/'
 
 import { connect } from 'react-redux';
-import {loadTickets} from '../../redux/actions';
 import { getTickets, } from '../../API/store.jsx'
 import * as actions from '../../redux/ticket/actions'
 
 class ListingDetails extends Component {
 
     componentDidMount() {
-        this.props.loadingTickets();
-         getTickets(this.props.id).then((res) => {
-             const data = res.data;
-             this.props.loadTickets(data);
-             this.props.loadedTickets();
-         });
+        this.props.readListingId(this.props.id);
+        this.props.loadTickets(this.props.id);
     }
     
     render() {
@@ -67,10 +62,10 @@ class ListingDetails extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        ListingBody: state.reducerOld.ListingBody,
-        MyListingArr: state.reducerOld.MyListingArr,
+        ListingBody: state.ticket.ListingBody,
+        MyListingArr: state.listing.MyListingArr,
         isticketsLoading: state.ticket.isticketsLoading
     };
 };
 
-export default connect(mapStateToProps, { loadTickets, ...actions})(ListingDetails);
+export default connect(mapStateToProps, actions)(ListingDetails);

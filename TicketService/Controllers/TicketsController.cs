@@ -32,6 +32,7 @@ namespace TicketService.Controllers
         [HttpGet("Events/{id}/Tickets")]
         public async Task<IActionResult> Tickets(int id)
         {
+            @ViewBag.EventId = id;
             var Tickets = await ticketsService.GetTicketsAvailableByEventId(id);
             return View(Tickets);
         }

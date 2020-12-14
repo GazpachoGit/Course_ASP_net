@@ -27,7 +27,7 @@ class CreateTicketForm extends Component {
             })
     }
     render() {
-        const { handleSubmit, reset, eventList, cityList, venueList, ListingBody, addTicket } = this.props;
+        const { handleSubmit, reset, eventList, cityList, venueList, listingId, addTicket } = this.props;
 
         const loadVenues = (val) => {
             getVenues({ Cities: [val] })
@@ -55,7 +55,7 @@ class CreateTicketForm extends Component {
             </div>
 
         const submit = async (val) => {
-            const ticket = { price: val.price, eventId: val.event.eventId, listingId: ListingBody[0].listingId };
+            const ticket = { price: Number(val.price), eventId: val.event.eventId, listingId };
             console.log(ticket);
             addTicket(ticket);
             // await createTicket({ price: Number(val.price), eventId: val.event.eventId, listingId: ListingBody[0].listingId });
@@ -97,10 +97,10 @@ const validate = (val) => {
 };
 
 const mapStateToProps = state => ({
-    ListingBody: state.reducerOld.ListingBody,
     eventList: state.ticket.eventList,
     cityList: state.ticket.cityList,
-    venueList: state.ticket.venueList
+    venueList: state.ticket.venueList,
+    listingId: state.ticket.listingId
 })
 
 const mapDispatchToProps = (dispatch) => {

@@ -6,9 +6,11 @@ import {OPEN_MODAL,
         GET_VENUELIST,
         GET_CITYLIST,
         TICKETS_LOADED,
-        TICKETS_LOADING,} from './index'
+        TICKETS_LOADING,
+        UPDATE_TICKETS,
+        READ_LISTING_ID} from './index'
 import {openErrorModal} from '../custom-error/actions'
-import {createTicket} from '../../API/store';
+import {createTicket, getTickets, removeTicket} from '../../API/store';
 
 export const openModal =  () => ({
     type: OPEN_MODAL
@@ -42,16 +44,41 @@ export const loadingTickets = () => ({
 export const loadedTickets = () => ({
     type: TICKETS_LOADED
 });
+export const updateTickets = (data) => ({   
+    type: UPDATE_TICKETS,
+    payload: data
+})
+export const readListingId = (id) => ({
+    type:  READ_LISTING_ID,
+    payload: Number(id)
+})
+export const deleteTicket = (id, tId) => {
+    return async (dispatch) => {
+        dispatch(closeDelModal());
+        await removeTicket(tId);
+        dispatch(loadTickets(id));
+    }
+}
 
+export const loadTickets = (id) => {
+    return async (dispatch) => {
+        dispatch(loadingTickets());
+        const res =  await getTickets(id);
+        dispatch(updateTickets(res.data));
+        dispatch(loadedTickets());
+    }
+}
 
  export const addTicket = (ticket) => {
      return async (dispatch) => {
          try {
-            await createTicket(ticket)
-            .then(dispatch(closeModal()))
+            await createTicket(ticket);           
+            await dispatch(loadTickets(ticket.listingId));
          } catch(err) {
-            dispatch(openErrorModal(err))
-         }                
+            dispatch(openErrorModal(err));
+         } finally {
+            dispatch(closeModal());
+         }               
  }
 }  
  

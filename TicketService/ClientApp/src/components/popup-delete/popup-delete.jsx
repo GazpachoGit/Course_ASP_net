@@ -2,8 +2,7 @@ import react, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
-import { deleteTicket } from '../../redux/actions';
-import { closeDelModal } from '../../redux/ticket/actions'
+import { closeDelModal, deleteTicket } from '../../redux/ticket/actions'
 import { removeTicket } from '../../API/store.jsx'
 import { useHistory } from 'react-router-dom';
 
@@ -36,9 +35,7 @@ const PopupDelete = ({ id, tId, ListingBody, deleteTicket, closeModal, isModalDe
             }
             <div className="delete-buttons">
                 <button className="btn delete-btn" onClick={() => {
-                    closeModal();
-                    removeTicket(tId)
-                        .then(deleteTicket(tId));
+                    deleteTicket(id, tId);
                 }}>delete</button>
                 <button className="btn" onClick={closeModal}>cancel</button>
             </div>
@@ -47,7 +44,7 @@ const PopupDelete = ({ id, tId, ListingBody, deleteTicket, closeModal, isModalDe
 }
 const mapStateToProps = (state) => {
     return {
-        ListingBody: state.reducerOld.ListingBody,
+        ListingBody: state.ticket.ListingBody,
         isModalDelOpened: state.ticket.isModalDelOpened,
         id: state.ticket.deleteId,
         tId: state.ticket.deleteTId,
@@ -55,7 +52,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        deleteTicket: (tId) => dispatch(deleteTicket(tId)),
+        deleteTicket: (id, tId) => dispatch(deleteTicket(id, tId)),
         closeModal: () => dispatch(closeDelModal())
     }
 }

@@ -1,12 +1,10 @@
 import react, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import ListingGrid from '../listing-grid'
-import ListingDetails from '../listing-details'
 
 import { connect } from 'react-redux';
-import * as actions from '../../redux/actions';
+import * as actions from '../../redux/listing/actions';
 import { getListings } from '../../API/store.jsx'
 import Preloader from '../preloader/'
 
@@ -40,8 +38,8 @@ class Listing extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        MyListingArr: state.reducerOld.MyListingArr,
-        isListingLoading: state.reducerOld.isListingLoading
+        MyListingArr: state.listing.MyListingArr,
+        isListingLoading: state.listing.isListingLoading
     };
 };
 

@@ -7,8 +7,11 @@ export const GET_VENUELIST = 'createTicket/GET_VENUELIST';
 export const GET_CITYLIST = 'createTicket/GET_CITYLIST';
 export const TICKETS_LOADING = 'ticketList/TICKETS_LOADING';
 export const TICKETS_LOADED = 'ticketList/TICKETS_LOADED';
+export const UPDATE_TICKETS = 'ticketList/UPDATE_TICKETS';
+export const READ_LISTING_ID = 'ticketList/READ_LISTING_ID';
 
 const initialState = {
+    listingId: null,
     isModalOpened: false,
     isModalDelOpened: false,
     deleteId: null,
@@ -16,7 +19,8 @@ const initialState = {
     eventList: [],
     venueList:[],
     cityList:[],
-    isticketsLoading: false
+    isticketsLoading: false,
+    ListingBody: []
 }
 
 const ticketReduser = (state = initialState, action) => {
@@ -39,6 +43,10 @@ const ticketReduser = (state = initialState, action) => {
             return {...state, isticketsLoading: true}
         case TICKETS_LOADED:
             return {...state, isticketsLoading: false}
+        case UPDATE_TICKETS: 
+            return {...state, ListingBody: action.payload}
+            case READ_LISTING_ID:
+                return {...state, listingId:action.payload}
              
         default: 
             return state;
