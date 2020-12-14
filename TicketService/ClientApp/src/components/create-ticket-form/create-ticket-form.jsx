@@ -3,11 +3,13 @@ import { Field, reduxForm } from 'redux-form';
 import DropdownList from 'react-widgets/lib/DropdownList'
 import RequiredField from './required-field/required-field';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 import { getEvents, getCities, getVenues, createTicket } from '../../API/store';
-import { loadEventList, loadCityList, loadVenueList, closeModal } from '../../redux/ticket/actions';
+import { loadEventList, loadCityList, loadVenueList, addTicket } from '../../redux/ticket/actions';
 
 import './create-ticket-form.css';
 import 'react-widgets/dist/css/react-widgets.css'
@@ -25,7 +27,7 @@ class CreateTicketForm extends Component {
             })
     }
     render() {
-        const { handleSubmit, reset, eventList, cityList, venueList, ListingBody, closeModal } = this.props;
+        const { handleSubmit, reset, eventList, cityList, venueList, ListingBody, addTicket } = this.props;
 
         const loadVenues = (val) => {
             getVenues({ Cities: [val] })
@@ -53,9 +55,11 @@ class CreateTicketForm extends Component {
             </div>
 
         const submit = async (val) => {
-            console.log({ ...val, listingId: ListingBody[0].listingId });
-            await createTicket({ price: Number(val.price), eventId: val.event.eventId, listingId: ListingBody[0].listingId });
-            this.props.closeModal();
+            const ticket = { price: Number(val.price), eventId: val.event.eventId, listingId: ListingBody[0].listingId };
+            console.log(ticket);
+            addTicket(ticket);
+            // await createTicket({ price: Number(val.price), eventId: val.event.eventId, listingId: ListingBody[0].listingId });
+            // this.props.closeModal();
         };
         return (
             <form onSubmit={handleSubmit(submit)}>
@@ -99,8 +103,17 @@ const mapStateToProps = state => ({
     venueList: state.ticket.venueList
 })
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addTicket: (t) => dispatch(addTicket(t)),
+        loadEventList: (t) => dispatch(loadEventList(t)),
+        loadCityList: (t) => dispatch(loadCityList(t)),
+        loadVenueList: (t) => dispatch(loadVenueList(t)),
+    }
+}
+
 CreateTicketForm = connect(
-    mapStateToProps, { loadEventList, loadCityList, loadVenueList, closeModal }
+    mapStateToProps, mapDispatchToProps
 )(CreateTicketForm);
 
 export default reduxForm({ form: "create_ticket", validate })(CreateTicketForm);

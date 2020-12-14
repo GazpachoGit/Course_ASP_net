@@ -45,6 +45,7 @@ export const loadedTickets = () => ({
  export const addTicket = (ticket) => {
      return async (dispatch) => {
         await createTicket(ticket)
-        dispatch(CLOSE_MODAL)
-     }   
+        dispatch(CLOSE_MODAL)          
  }
+}  
+ 
